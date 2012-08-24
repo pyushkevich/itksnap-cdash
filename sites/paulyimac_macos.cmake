@@ -9,7 +9,7 @@
 # may need to be set on some platforms and configurations
 
 # REQUIRED: Root directory : where is the build taking place
-SET(ROOT "/Users/pauly/tk/itksnap/cdash")
+SET(ROOT "/Users/pauly/tk/buildbot")
 
 # REQUIRED: define the descriptive site name and build name
 set(CTEST_SITE "paulyimac_macos")
