@@ -33,6 +33,7 @@ MACRO(PARSE_ARGUMENTS prefix arg_names option_names)
   SET(${prefix}_${current_arg_name} ${current_arg_list})
 ENDMACRO(PARSE_ARGUMENTS)
 
+
 # Generate the CACHE_ADD function, which can be used by the site-specific
 # scripts to conditionally add variables to the cache. The syntax for this
 # command is 
@@ -73,9 +74,44 @@ MACRO(CACHE_ADD Line)
 
 ENDMACRO(CACHE_ADD)
 
-# A conditional set command
-# 
-#   CONDSET(Variable TestVar TestVal TrueVal FalseVal)
+# Generate the ENV_ADD function, which can be used by the site-specific
+# scripts to conditionally add variables to the CTEST environment. 
+# The syntax is command is 
+#   ENV_ADD(Variable [PRODUCT regex] [CONFIG regex] [BRANCH regex])
+#
+MACRO(ENV_ADD Variable Value)
+
+  # Parse out the arguments
+  PARSE_ARGUMENTS(ARG "PRODUCT;CONFIG;BRANCH" "" ${ARGN})
+
+  # Check the matches
+  SET(ENV_ADD_FLAG TRUE)
+  IF(ARG_PRODUCT)
+    IF(NOT ${IN_PRODUCT} MATCHES ${ARG_PRODUCT})
+      SET(ENV_ADD_FLAG FALSE)
+    ENDIF(NOT ${IN_PRODUCT} MATCHES ${ARG_PRODUCT})
+  ENDIF(ARG_PRODUCT)
+
+  IF(ARG_BRANCH)
+    IF(NOT ${IN_BRANCH} MATCHES ${ARG_BRANCH})
+      SET(ENV_ADD_FLAG FALSE)
+    ENDIF(NOT ${IN_BRANCH} MATCHES ${ARG_BRANCH})
+  ENDIF(ARG_BRANCH)
+
+  IF(ARG_CONFIG)
+    IF(NOT ${IN_CONFIG} MATCHES ${ARG_CONFIG})
+      SET(ENV_ADD_FLAG FALSE)
+    ENDIF(NOT ${IN_CONFIG} MATCHES ${ARG_CONFIG})
+  ENDIF(ARG_CONFIG)
+
+  # Append the value to the env
+  IF(ENV_ADD_FLAG)
+    SET(ENV{${Variable}} "${Value}")
+  ENDIF(ENV_ADD_FLAG)
+
+ENDMACRO(ENV_ADD)
+
+
 
 # Check if a variable is defined and exit if it is not
 MACRO(CHECK_SITE_VAR Variable)

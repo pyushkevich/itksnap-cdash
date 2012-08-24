@@ -26,7 +26,7 @@ SET(TKDIR "/mnt/build/pauly")
 # as well as some other settings
 IF(${IN_CONFIG} MATCHES gcc64rel)
 
-  SET(FLTK_SUFFIX "gcc64")
+  SET(FLTK13 "${TKDIR}/fltk13/install_gcc64/lib/libfltk.a")
   SET(CFLAGS "-fno-strict-aliasing")
 
 ELSEIF(${IN_CONFIG} MATCHES icc64rel)
@@ -34,11 +34,9 @@ ELSEIF(${IN_CONFIG} MATCHES icc64rel)
   SET(FLTK13 "${TKDIR}/fltk13/install_icc64/lib/libfltk.a")
   SET(CFLAGS "-wd1268 -wd1224 -wd858")
 
-  SET (CTEST_ENVIRONMENT 
-    "CC=/opt/intel/cce/10.1.018/bin/icc"
-    "CXX=/opt/intel/cce/10.1.018/bin/icpc"
-    "LD_LIBRARY_PATH=/opt/intel/cce/10.1.018/lib"
-  )
+  ENV_ADD(CC "/opt/intel/cce/10.1.018/bin/icc")
+  ENV_ADD(CXX "/opt/intel/cce/10.1.018/bin/icpc")
+  ENV_ADD(LD_LIBRARY_PATH "/opt/intel/cce/10.1.018/lib")
 
 ELSE(${IN_CONFIG} MATCHES gcc64rel)
   
@@ -56,5 +54,5 @@ CACHE_ADD("ITK_DIR:PATH=${TKDIR}/itk320/${IN_CONFIG}")
 CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk580/${IN_CONFIG}" BRANCH "qtsnap.*")
 CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk561/${IN_CONFIG}" BRANCH "master")
 CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTK13}" BRANCH "master")
-CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" BRANCH "master")
-CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" BRANCH "master")
+#CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" BRANCH "master")
+#CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" BRANCH "master")
