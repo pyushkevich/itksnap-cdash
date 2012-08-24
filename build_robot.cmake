@@ -32,6 +32,9 @@
 #    Dashboard, located at itksnap.org/cdash
 #
 
+# Include some macro code
+INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
+
 # ---------------------------------------
 # Parse the parameter settings
 # ---------------------------------------
@@ -54,48 +57,32 @@ IF(NOT (${IN_MODEL} MATCHES "Nightly" OR ${IN_MODEL} MATCHES "Experimental"))
   MESSAGE(FATAL_ERROR "Unknown model ${IN_MODEL}, should be Nightly or Experimental")
 ENDIF(NOT (${IN_MODEL} MATCHES "Nightly" OR ${IN_MODEL} MATCHES "Experimental"))
 
-
 # Check the existance of the site-specific script
 SET(SITE_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}.cmake)
 if(NOT EXISTS ${SITE_SCRIPT})
   MESSAGE(FATAL_ERROR "Site-specific script ${SITE_SCRIPT} does not exist")
 endif(NOT EXISTS ${SITE_SCRIPT})
 
+# Set some default options, so that we don't need to set them
+# separately for each site. Some sites may need to override this
+SET(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+
 # Include the machine-specific info
 INCLUDE(${SITE_SCRIPT})
 
 # Make sure the relevant variables have been set 
-IF(NOT DEFINED INIT_CACHE)
-  MESSAGE(FATAL_ERROR "Variable INIT_CACHE not set by site-specific script!")
-ENDIF(NOT DEFINED INIT_CACHE)
-IF(NOT DEFINED CTEST_CMAKE_GENERATOR)
-  MESSAGE(FATAL_ERROR "Variable CTEST_CMAKE_GENERATOR not set by site-specific script!")
-ENDIF(NOT DEFINED CTEST_CMAKE_GENERATOR)
-IF(NOT DEFINED CTEST_BUILD_NAME)
-  MESSAGE(FATAL_ERROR "Variable CTEST_BUILD_NAME not set by site-specific script!")
-ENDIF(NOT DEFINED CTEST_BUILD_NAME)
-IF(NOT DEFINED CTEST_SITE)
-  MESSAGE(FATAL_ERROR "Variable CTEST_SITE not set by site-specific script!")
-ENDIF(NOT DEFINED CTEST_SITE)
-IF(NOT DEFINED GIT_UID)
-  MESSAGE(FATAL_ERROR "Variable GIT_UID not set by site-specific script!")
-ENDIF(NOT DEFINED GIT_UID)
-IF(NOT DEFINED GIT_BINARY)
-  MESSAGE(FATAL_ERROR "Variable GIT_BINARY not set by site-specific script!")
-ENDIF(NOT DEFINED GIT_BINARY)
-IF(NOT DEFINED ROOT)
-  MESSAGE(FATAL_ERROR "Variable ROOT not set by site-specific script!")
-ENDIF(NOT DEFINED ROOT)
+CHECK_SITE_VAR(CTEST_CMAKE_GENERATOR)
+CHECK_SITE_VAR(CTEST_BUILD_NAME)
+CHECK_SITE_VAR(CTEST_SITE)
+CHECK_SITE_VAR(GIT_UID)
+CHECK_SITE_VAR(GIT_BINARY)
+CHECK_SITE_VAR(ROOT)
 
-# Set some variables that are redundant
-SET (INIT_CACHE "
-  ${INIT_CACHE}
-  CMAKE_GENERATOR:INTERNAL=${CTEST_CMAKE_GENERATOR}
-  BUILDNAME:STRING=${CTEST_BUILD_NAME}
-  SITE:STRING=${CTEST_SITE}
-  SCP_USERNAME:STRING=${GIT_UID}
-")
-
+# Add some cache variables that site-specific scripts don't need to set
+CACHE_ADD("CMAKE_GENERATOR:INTERNAL=${CTEST_CMAKE_GENERATOR}")
+CACHE_ADD("BUILDNAME:STRING=${CTEST_BUILD_NAME}")
+CACHE_ADD("SITE:STRING=${CTEST_SITE}")
+CACHE_ADD("SCP_USERNAME:STRING=${GIT_UID}")
 
 # Directories for this build
 SET (CTEST_SOURCE_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN_PRODUCT}")
