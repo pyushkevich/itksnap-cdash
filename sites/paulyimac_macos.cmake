@@ -19,6 +19,9 @@ set(CTEST_BUILD_NAME "MacOS-10.5-${IN_CONFIG}")
 SET(GIT_BINARY /usr/local/git/bin/git)
 SET(GIT_UID pyushkevich)
 
+# This site uploads all of its builds
+SET(DO_UPLOAD TRUE)
+
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/pauly/tk")
 
