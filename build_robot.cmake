@@ -115,8 +115,7 @@ endif(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
 # Write the initial config file
 file(WRITE ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt ${INIT_CACHE})
 
-MESSAGE(WARNING ${CTEST_ENVIRONMENT})
-MESSAGE(WARNING "a;b;c")
+MESSAGE(WARNING "Initial Cache ${INIT_CACHE}")
 ctest_start(${IN_MODEL})
 ctest_update()
 ctest_configure()
