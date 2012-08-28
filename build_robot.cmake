@@ -124,7 +124,7 @@ ctest_submit()
 
 # For nightly builds that are uploaders
 if(DEFINED DO_UPLOAD)
-  ctest_build(TARGET package)
-  ctest_build(TARGET upload_nightly)
+  ctest_build(TARGET package APPEND)
+  ctest_build(TARGET upload_nightly APPEND)
 endif(DEFINED DO_UPLOAD)
 
