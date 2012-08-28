@@ -109,7 +109,7 @@ MACRO(SETCOND Varname Value)
     SET(${Varname} ${Value})
   ENDIF(CACHE_ADD_FLAG)
 
-ENDMACRO(CACHE_ADD)
+ENDMACRO(SETCOND)
 
 
 

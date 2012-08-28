@@ -79,7 +79,7 @@ ENDMACRO(CACHE_ADD)
 # match pattern as in CACHE_ADD, i.e., 
 #   SETCOND(MyVar MyVal PRODUCT itksnap)
 #
-MACRO(CACHE_ADD Varname Value)
+MACRO(SETCOND Varname Value)
 
   # Parse out the arguments
   PARSE_ARGUMENTS(ARG "PRODUCT;CONFIG;BRANCH" "" ${ARGN})
