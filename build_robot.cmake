@@ -9,7 +9,7 @@
 #
 # Example Usage:
 #
-# ctest -V -S itksnap_build.cmake,itksnap,master,Nightly,paulyimac-MacOS,gcc64rel
+# ctest -V -S build_robot.cmake,itksnap,master,Nightly,paulyimac-MacOS,gcc64rel
 #
 # Explanation of parameters:
 #
