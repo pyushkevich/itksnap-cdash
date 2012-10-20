@@ -1,35 +1,37 @@
+#############################################
+# Site-Specific Build Configuration Script  #
+#############################################
+#
+# This script should be edited for each new site where
+# we want to build ITK-SNAP and related tools. The
+# general structure of this script should be followed on
+# all sites, but some additonal variables (e.g., CTEST_ENVIRONMENT)
+# may need to be set on some platforms and configurations
+
 # Root directory
-SET(ROOT "/home/pauly/tk/itksnap/cdash/")
+SET(ROOT "/home/pauly/tk/buildbot")
 
-# Build configuration
-SET(CONFIG "gcc32rel")
+# REQUIRED: define the descriptive site name and build name
+set(CTEST_SITE "paulyimac_centos5_x86")
+set(CTEST_BUILD_NAME "CentOS-5.2-${IN_CONFIG}")
 
-# Where CVS is
-SET (CTEST_CVS_COMMAND "/usr/bin/cvs")
-SET (CTEST_CVS_CHECKOUT  "${CTEST_CVS_COMMAND} -d:ext:pyushkevich@itk-snap.cvs.sourceforge.net:/cvsroot/itk-snap co itksnap")
+# REQUIRED: Where GIT is and who is the user with SSH capability
+SET(GIT_BINARY /usr/bin/git)
+SET(GIT_UID pyushkevich)
 
-# what cmake command to use for configuring this dashboard
-SET (CTEST_CMAKE_COMMAND "/usr/local/bin/cmake")
-SET (CTEST_CTEST_COMMAND "/usr/local/bin/ctest")
-SET (CTEST_MAKE_COMMAND "/usr/bin/make")
+# Library directory: path where all the libraries are build (this is only used internally)
+SET(TKDIR "/home/pauly/tk")
 
-# Initial Cache
-SET (CTEST_INITIAL_CACHE "
-MAKECOMMAND:STRING=/usr/bin/make -i
-CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make
-CMAKE_GENERATOR:INTERNAL=Unix Makefiles
-BUILDNAME:STRING=CentOS-5.2-gccrel32
-SITE:STRING=paulyimac_centos5_x86
-CVSCOMMAND:FILEPATH=/usr/bin/cvs
-CMAKE_BUILD_TYPE:STRING=Release
-CMAKE_C_FLAGS:STRING=-fno-strict-aliasing
-CMAKE_CXX_FLAGS:STRING=-fno-strict-aliasing
-FLTK_BASE_LIBRARY:FILEPATH=/home/pauly/tk/fltk13/install/lib/libfltk.a
-X11_Xinerama_LIB:FILEPATH=/usr/lib/libXinerama.so.1
-ITK_DIR:PATH=/home/pauly/tk/itk320/gcc32rel
-VTK_DIR:PATH=/home/pauly/tk/vtk561/gcc32rel
-SCP_USERNAME:STRING=pyushkevich
-")
-
-# set any extra environment variables to use during the execution of the script here:
-SET (CTEST_ENVIRONMENT "CVS_RSH=ssh")
+# Add cache entries
+CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i")
+CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make")
+CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release")
+CACHE_ADD("ITK_DIR:PATH=${TKDIR}/itk420/${IN_CONFIG}")
+CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk561/${IN_CONFIG}" BRANCH "master")
+CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/qt-4.8.2/bin/qmake" BRANCH "qtsnap.*")
+CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${TKDIR}/fltk13/install/lib/libfltk.a" BRANCH "master")
+CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" BRANCH "master")
+CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" BRANCH "master")
+CACHE_ADD("SNAP_USE_FLTK_ZLIB:BOOL=ON" BRANCH "master")
+CACHE_ADD("X11_Xft_LIB:FILEPATH=/usr/lib/libXft.so.2" BRANCH "master")
+CACHE_ADD("X11_Xinerama_LIB:FILEPATH=/usr/lib/libXinerama.so.1" BRANCH "master")
