@@ -31,12 +31,14 @@ IF(${IN_CONFIG} MATCHES gcc32rel)
 
   SET(FLTK13 "${TKDIR}/fltk13/install32/lib/libfltk.a")
   SET(ARCH i386)
+  CACHE_ADD("ARCH:STRING=i386")
   SET(MINVER 10.4)
 
 ELSEIF(${IN_CONFIG} MATCHES gcc64rel)
   
   SET(FLTK13 "${TKDIR}/fltk13/install64/lib/libfltk.a")
   SET(ARCH x86_64)
+  CACHE_ADD("ARCH:STRING=x86_64")
   SET(MINVER 10.5)
 
 ELSE(${IN_CONFIG} MATCHES gcc32rel)
