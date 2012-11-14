@@ -22,6 +22,9 @@ SET(GIT_UID pyushkevich)
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/home/pauly/tk")
 
+# This site uploads all of its builds
+SET(DO_UPLOAD TRUE)
+
 # Add cache entries
 CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i")
 CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make")
