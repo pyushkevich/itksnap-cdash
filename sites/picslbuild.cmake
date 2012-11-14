@@ -28,6 +28,7 @@ IF(${IN_CONFIG} MATCHES gcc64rel)
 
   SET(FLTK13 "${TKDIR}/fltk13/install_gcc64/lib/libfltk.a")
   SET(CFLAGS "-fno-strict-aliasing")
+  SET(DO_UPLOAD TRUE)
 
 ELSEIF(${IN_CONFIG} MATCHES icc64rel)
   
