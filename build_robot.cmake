@@ -98,7 +98,7 @@ ENDIF(${IN_MODEL} MATCHES "Nightly")
 
 # Set the GIT path
 IF(${IN_PRODUCT} MATCHES "itksnap")
-  SET(GIT_URL "ssh://${GIT_UID}@itk-snap.git.sourceforge.net/gitroot/itk-snap/itksnap")
+  SET(GIT_URL "ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src")
 ELSE(${IN_PRODUCT} MATCHES "itksnap")
   MESSAGE(FATAL_ERROR "Unknown product ${IN_PRODUCT}")
 ENDIF(${IN_PRODUCT} MATCHES "itksnap")
@@ -109,7 +109,7 @@ set(CTEST_UPDATE_COMMAND ${GIT_BINARY})
 
 if(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
   file(MAKE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  set(CTEST_CHECKOUT_COMMAND "${GIT_BINARY} clone -b ${IN_BRANCH} ${GIT_URL}")
+  set(CTEST_CHECKOUT_COMMAND "${GIT_BINARY} clone -b ${IN_BRANCH} ${GIT_URL} itksnap")
 endif(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
 
 # Write the initial config file
