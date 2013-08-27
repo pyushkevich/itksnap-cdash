@@ -39,6 +39,13 @@ ELSEIF(${IN_CONFIG} MATCHES icc64rel)
   ENV_ADD(CXX "/opt/intel/cce/10.1.018/bin/icpc")
   ENV_ADD(LD_LIBRARY_PATH "/opt/intel/cce/10.1.018/lib")
 
+ELSEIF(${IN_CONFIG} MATCHES gcc32rel)
+
+  SET(FLTK13 "${TKDIR}/fltk13/install_gcc32/lib/libfltk.a")
+  SET(CFLAGS "-m32 -fno-strict-aliasing")
+
+  SET(DO_UPLOAD TRUE)
+
 ELSE(${IN_CONFIG} MATCHES gcc64rel)
   
   MESSAGE(FATAL_ERROR "Unknown configuration ${IN_CONFIG}")
@@ -56,5 +63,9 @@ CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk580/${IN_CONFIG}" BRANCH "qtsnap.*")
 CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk561/${IN_CONFIG}" BRANCH "master")
 CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/qt-4.8.2/bin/qmake" BRANCH "qtsnap.*")
 CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTK13}" BRANCH "master")
+
+# We need this because this is a cross-compilation
+CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-i686" CONFIG "gcc32.*")
+
 #CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" BRANCH "master")
 #CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" BRANCH "master")
