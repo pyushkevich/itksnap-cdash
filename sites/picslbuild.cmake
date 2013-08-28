@@ -29,11 +29,13 @@ IF(${IN_CONFIG} MATCHES gcc64rel)
   SET(FLTK13 "${TKDIR}/fltk13/install_gcc64/lib/libfltk.a")
   SET(CFLAGS "-fno-strict-aliasing")
   SET(DO_UPLOAD TRUE)
+  SET(QTDIR ${TKDIR}/Qt/qt-4.8.2)
 
 ELSEIF(${IN_CONFIG} MATCHES icc64rel)
   
   SET(FLTK13 "${TKDIR}/fltk13/install_icc64/lib/libfltk.a")
   SET(CFLAGS "-wd1268 -wd1224 -wd858")
+  SET(QTDIR ${TKDIR}/Qt/qt-4.8.2)
 
   ENV_ADD(CC "/opt/intel/cce/10.1.018/bin/icc")
   ENV_ADD(CXX "/opt/intel/cce/10.1.018/bin/icpc")
@@ -43,6 +45,7 @@ ELSEIF(${IN_CONFIG} MATCHES gcc32rel)
 
   SET(FLTK13 "${TKDIR}/fltk13/install_gcc32/lib/libfltk.a")
   SET(CFLAGS "-m32 -fno-strict-aliasing")
+  SET(QTDIR ${TKDIR}/Qt/qt-4.8.2-gcc32)
 
   SET(DO_UPLOAD TRUE)
 
@@ -61,8 +64,11 @@ CACHE_ADD("CMAKE_CXX_FLAGS:STRING=${CFLAGS}")
 CACHE_ADD("ITK_DIR:PATH=${TKDIR}/itk42/${IN_CONFIG}")
 CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk580/${IN_CONFIG}" BRANCH "qtsnap.*")
 CACHE_ADD("VTK_DIR:PATH=${TKDIR}/vtk561/${IN_CONFIG}" BRANCH "master")
-CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/qt-4.8.2/bin/qmake" BRANCH "qtsnap.*")
-CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTK13}" BRANCH "master")
+CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${QTDIR}/bin/qmake")
+CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTK13}" PRODUCT "itksnap" BRANCH "master")
+
+# Tell C3D that the GUI should be built
+CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
 
 # We need this because this is a cross-compilation
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-i686" CONFIG "gcc32.*")
