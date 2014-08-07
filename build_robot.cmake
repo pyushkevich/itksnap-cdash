@@ -91,19 +91,25 @@ SET (CTEST_BINARY_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN
 # The maximum time a test can run before CTest kills it
 SET(CTEST_TEST_TIMEOUT 300)
 
-# Clear the binary directory for nightly builds
-IF(${IN_MODEL} MATCHES "Nightly")
-  CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
-ENDIF(${IN_MODEL} MATCHES "Nightly")
+# Include the product-specific scripts. These scripts must set the following
+# variables:
+#
+#   PRODUCT_CHECKOUT_COMMAND: command used to checkout specific branch/tag of the product
+#                             using GIT or whatever other tool
+# 
+#   PRODUCT_EXTERNAL:         if set to ON, the product is treated as an external product
+#                             (e.g., ITK, VTK) and is not rebuilt nightly
+#
+SET(PRODUCT_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/products/${IN_PRODUCT}.cmake)
+IF(NOT EXISTS ${PRODUCT_SCRIPT})
+  MESSAGE(FATAL_ERROR "Product-specific script ${PRODUCT_SCRIPT} does not exist")
+ENDIF(NOT EXISTS ${PRODUCT_SCRIPT})
+INCLUDE(${PRODUCT_SCRIPT})
 
-# Set the GIT path
-IF(${IN_PRODUCT} MATCHES "itksnap")
-  SET(GIT_URL "ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src")
-ELSEIF(${IN_PRODUCT} MATCHES "c3d")
-  SET(GIT_URL "ssh://${GIT_UID}@git.code.sf.net/p/c3d/git")
-ELSE(${IN_PRODUCT} MATCHES "itksnap")
-  MESSAGE(FATAL_ERROR "Unknown product ${IN_PRODUCT}")
-ENDIF(${IN_PRODUCT} MATCHES "itksnap")
+# Clear the binary directory for nightly builds
+IF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
+  CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
+ENDIF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
 
 # Configure for GIT
 set(CTEST_UPDATE_TYPE "git")
@@ -111,7 +117,7 @@ set(CTEST_UPDATE_COMMAND ${GIT_BINARY})
 
 if(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
   file(MAKE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-  set(CTEST_CHECKOUT_COMMAND "${GIT_BINARY} clone -b ${IN_BRANCH} ${GIT_URL} ${IN_PRODUCT}")
+  set(CTEST_CHECKOUT_COMMAND ${PRODUCT_CHECKOUT_COMMAND})
 endif(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
 
 # Write the initial config file
@@ -125,8 +131,9 @@ ctest_build()
 ctest_submit()
 
 # For nightly builds that are uploaders
-if(DEFINED DO_UPLOAD)
-  ctest_build(TARGET package APPEND)
-  ctest_build(TARGET upload_nightly APPEND)
-endif(DEFINED DO_UPLOAD)
-
+if(NOT PRODUCT_EXTERNAL)
+  if(DEFINED DO_UPLOAD)
+    ctest_build(TARGET package APPEND)
+    ctest_build(TARGET upload_nightly APPEND)
+  endif(DEFINED DO_UPLOAD)
+endif(NOT PRODUCT_EXTERNAL)

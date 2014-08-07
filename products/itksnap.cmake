@@ -1,0 +1,12 @@
+# DESCRIBE THE PRODUCT
+SET(PRODUCT_CHECKOUT_COMMAND 
+  "${GIT_BINARY} clone -b ${IN_BRANCH} ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src ${IN_PRODUCT}")
+
+# SET UP PRODUCT-SPECIFIC CACHE ENTRIES
+CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.2.1/${IN_CONFIG}" BRANCH "master")
+CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.2.1/${IN_CONFIG}" BRANCH "qtsnap")
+CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.5.2/${IN_CONFIG}" BRANCH "dev32")
+
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v5.8.0/${IN_CONFIG}" BRANCH "master")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v5.8.0/${IN_CONFIG}" BRANCH "qtsnap")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.0.0/${IN_CONFIG}" BRANCH "dev32")
