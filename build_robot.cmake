@@ -109,6 +109,7 @@ INCLUDE(${PRODUCT_SCRIPT})
 # Clear the binary directory for nightly builds
 IF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
   CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
+  MESSAGE(WARNING "Emptied the binary directory ***EMPTY***")
 ENDIF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
 
 # Configure for GIT
@@ -128,6 +129,11 @@ ctest_start(${IN_MODEL})
 ctest_update()
 ctest_configure()
 ctest_build()
+
+if(NOT PRODUCT_EXTERNAL)
+  ctest_test()
+ENDIF(NOT PRODUCT_EXTERNAL)
+
 ctest_submit()
 
 # For nightly builds that are uploaders
