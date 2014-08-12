@@ -1,5 +1,5 @@
 SET(PRODUCT_CHECKOUT_COMMAND 
-  "${GIT_BINARY} clone -b ${IN_BRANCH} git://itk.org/ITK.git ${IN_PRODUCT}")
+  "${GIT_BINARY} clone -b ${IN_BRANCH} http://itk.org/ITK.git ${IN_PRODUCT}")
 
 SET(PRODUCT_EXTERNAL ON)
 
