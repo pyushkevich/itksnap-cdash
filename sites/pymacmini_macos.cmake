@@ -20,7 +20,7 @@ SET(GIT_BINARY /usr/bin/git)
 SET(GIT_UID pyushkevich)
 
 # This site uploads all of its builds
-SET(DO_UPLOAD TRUE)
+SET(DO_UPLOAD ON)
 
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/picsl/tk")
@@ -61,7 +61,7 @@ CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
 CACHE_ADD("CMAKE_OSX_SYSROOT:STRING=${FWDIR}")
 CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTK13}" BRANCH "master")
 CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/qt48/install/bin/qmake" PRODUCT itksnap BRANCH qtsnap)
-CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt5/5.3/clang_64/bin/qmake" PRODUCT itksnap BRANCH dev32)
+CACHE_ADD("CMAKE_PREFIX_PATH:STRING=${TKDIR}/Qt5/5.3/clang_64/lib/cmake" PRODUCT itksnap BRANCH dev32)
 CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" BRANCH "master")
 CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" BRANCH "master")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
