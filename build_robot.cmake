@@ -55,7 +55,7 @@ IF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Expe
 ENDIF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Experimental"))
 
 # Check the existance of the site-specific script
-SET(SITE_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}/configs.cmake)
+SET(SITE_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}/global.cmake)
 if(NOT EXISTS ${SITE_SCRIPT})
   MESSAGE(FATAL_ERROR "Site-specific script ${SITE_SCRIPT} does not exist")
 endif(NOT EXISTS ${SITE_SCRIPT})
@@ -126,58 +126,76 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
   # Include the site-specific build script. 
   INCLUDE(${SITE_BUILD_SCRIPT})
 
-  # Add some cache variables that site-specific scripts don't need to set
-  CACHE_ADD("CMAKE_GENERATOR:INTERNAL=${CTEST_CMAKE_GENERATOR}")
-  CACHE_ADD("BUILDNAME:STRING=${CTEST_BUILD_NAME}")
-  CACHE_ADD("SITE:STRING=${CTEST_SITE}")
-  CACHE_ADD("SCP_USERNAME:STRING=${GIT_UID}")
+  # The site-specific script may cancel the build
+  IF(SKIP_BUILD)
 
-  # Directories for this build
-  SET (CTEST_SOURCE_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN_PRODUCT}")
-  SET (CTEST_BINARY_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN_CONFIG}")
+    MESSAGE(WARNING "Site-specific script CANCELED the build")
+  
+  ELSE(SKIP_BUILD)
 
-  # The maximum time a test can run before CTest kills it
-  SET(CTEST_TEST_TIMEOUT 300)
+    # Add some cache variables that site-specific scripts don't need to set
+    CACHE_ADD("CMAKE_GENERATOR:INTERNAL=${CTEST_CMAKE_GENERATOR}")
+    CACHE_ADD("BUILDNAME:STRING=${CTEST_BUILD_NAME}")
+    CACHE_ADD("SITE:STRING=${CTEST_SITE}")
+    CACHE_ADD("SCP_USERNAME:STRING=${GIT_UID}")
 
-  # Clear the binary directory for nightly builds
-  IF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
-    CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
-    MESSAGE("Emptied the binary directory ***EMPTY***")
-  ENDIF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
+    # Directories for this build
+    SET (CTEST_SOURCE_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN_PRODUCT}")
+    SET (CTEST_BINARY_DIRECTORY "${ROOT}/${IN_MODEL}/${IN_PRODUCT}/${IN_BRANCH}/${IN_CONFIG}")
 
-  # Configure for GIT
-  set(CTEST_UPDATE_TYPE "git")
-  set(CTEST_UPDATE_COMMAND ${GIT_BINARY})
+    # The maximum time a test can run before CTest kills it
+    SET(CTEST_TEST_TIMEOUT 300)
 
-  if(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
-    file(MAKE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
-    set(CTEST_CHECKOUT_COMMAND ${PRODUCT_CHECKOUT_COMMAND})
-    MESSAGE("GIT COMMAND: ${CTEST_CHECKOUT_COMMAND}")
-  endif(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
+    # Clear the binary directory for nightly builds
+    IF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
+      CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
+      MESSAGE("Emptied the binary directory ***EMPTY***")
+    ENDIF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
 
-  # Write the initial config file
-  file(WRITE ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt ${INIT_CACHE})
+    # Configure for GIT
+    set(CTEST_UPDATE_TYPE "git")
+    set(CTEST_UPDATE_COMMAND ${GIT_BINARY})
 
-  MESSAGE("Initial Cache ${INIT_CACHE}")
-  ctest_start(${IN_MODEL})
-  ctest_update()
-  ctest_configure()
-  ctest_build()
+    if(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
+      file(MAKE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
+      set(CTEST_CHECKOUT_COMMAND ${PRODUCT_CHECKOUT_COMMAND})
+      MESSAGE("GIT COMMAND: ${CTEST_CHECKOUT_COMMAND}")
+    endif(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
 
-  if(NOT PRODUCT_EXTERNAL)
-    ctest_test()
-  ENDIF(NOT PRODUCT_EXTERNAL)
+    # Write the initial config file
+    file(WRITE ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt ${INIT_CACHE})
 
-  ctest_submit()
+    # Print out the initial cache
+    MESSAGE("Initial Cache ${INIT_CACHE}")
 
-  # For nightly builds that are uploaders
-  if(NOT PRODUCT_EXTERNAL)
-    if(DEFINED DO_UPLOAD)
-      ctest_build(TARGET package APPEND)
-      ctest_build(TARGET upload_nightly APPEND)
-    endif(DEFINED DO_UPLOAD)
-  endif(NOT PRODUCT_EXTERNAL)
+    # Start the build process
+    ctest_start(${IN_MODEL})
+    ctest_update(RETURN_VALUE UPDATE_COUNT)
+    MESSAGE("UPDATE resulted in ${UPDATE_COUNT} updated files")
 
+    # Different rules for own and external products
+    IF(PRODUCT_EXTERNAL)
+
+      # Don't bother re-configuring external products
+      ctest_configure()
+      ctest_build()
+
+    ELSE(PRODUCT_EXTERNAL)
+
+      ctest_configure()
+      ctest_build()
+      ctest_test()
+      ctest_submit()
+
+      # For nightly builds that are uploaders
+      if(DO_UPLOAD)
+        ctest_build(TARGET package APPEND)
+        ctest_build(TARGET upload_nightly APPEND)
+      endif(DO_UPLOAD)
+
+    ENDIF(PRODUCT_EXTERNAL)
+
+  ENDIF(SKIP_BUILD)
 
 ENDFUNCTION(BUILD_PRODUCT)
 

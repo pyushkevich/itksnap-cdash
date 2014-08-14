@@ -8,22 +8,8 @@
 # all sites, but some additonal variables (e.g., CTEST_ENVIRONMENT)
 # may need to be set on some platforms and configurations
 
-# REQUIRED: Root directory : where is the build taking place
-SET(ROOT "C:/Users/picsl/tk/bot")
-
-# REQUIRED: define the descriptive site name and build name
-set(CTEST_SITE "paulyimac_win7")
-set(CTEST_BUILD_NAME "Win7-vc10-${IN_CONFIG}")
-
-# REQUIRED: Where GIT is and who is the user with SSH capability
-SET(GIT_BINARY "C:/Program Files (x86)/Git/bin/git")
-SET(GIT_UID pyushkevich)
-
 # This site uploads all of its builds
-SET(DO_UPLOAD TRUE)
-
-# Library directory: path where all the libraries are build (this is only used internally)
-SET(TKDIR "C:/Users/picsl/tk")
+SET(DO_UPLOAD ON)
 
 # Directory shortcuts
 SET(VCDIR "C:/Program Files (x86)/Microsoft Visual Studio 10.0")
@@ -40,8 +26,6 @@ IF(${IN_CONFIG} MATCHES vce64rel)
   SET(VCBINDIR "${VCDIR}/VC/bin/amd64")
   SET(SDKBINDIR "${SDKDIR}/bin/x64")
   SET(WINSUFFIX "x64")
-
-  SET(QT5_PATH "C:/Qt5/5.3/msvc2013_64_opengl/lib/cmake")
 
   ENV_ADD(PATH "${DOTNET64DIR}/v4.0.30319\;${DOTNETDIR}/v4.0.30319\;${DOTNET64DIR}/v3.5\;${DOTNETDIR}/v3.5\;${VCDIR}/Common 7/IDE\;${VCDIR}/Common7/Tools\;${VCDIR}/VC/Bin/amd64\;${VCDIR}/VC/Bin/VCPackages\;${SDKDIR}/Bin/NETFX 4.0 Tools/x64\;${SDKDIR}/Bin/x64\;${SDKDIR}/Bin\;C:/Windows/system32\;C:/Windows\;C:/Windows/System32/Wbem\;C:/Windows/System32/WindowsPowerShell/v1.0/\;C:/cygwin/bin\;${CMAKEDIR}/bin")
   ENV_ADD(INCLUDE "${VCDIR}/VC/INCLUDE\;${SDKDIR}/INCLUDE\;${SDKDIR}/INCLUDE/gl\;")
@@ -65,7 +49,6 @@ ELSEIF(${IN_CONFIG} MATCHES vce32rel)
   SET(SDKBINDIR "${SDKDIR}/bin")
   SET(WINSUFFIX "x86")
 
-  SET(QT5_PATH "C:/Qt5/5.3/msvc2010_opengl/lib/cmake")
 
   ENV_ADD(PATH "${DOTNETDIR}/v4.0.30319\;${DOTNETDIR}/v3.5\;\;${VCDIR}/Common7/IDE\;${VCDIR}/Common7/Tools\;\;${VCDIR}/VC/Bin\;${VCDIR}/VC/Bin/VCPackages\;\;${SDKDIR}/Bin/NETFX 4.0 Tools\;${SDKDIR}/Bin\;\;C:/Windows/system32\;C:/Windows\;C:/Windows/System32/Wbem\;C:/Windows/System32/WindowsPowerShell/v1.0/\;C:/cygwin/bin\;${CMAKEDIR}/bin")
   ENV_ADD(INCLUDE "${VCDIR}/VC/INCLUDE\;${SDKDIR}/INCLUDE\;${SDKDIR}/INCLUDE/gl\;")
@@ -104,17 +87,31 @@ CACHE_ADD("CMAKE_RC_COMPILER:FILEPATH=${SDKBINDIR}/RC.Exe")
 CACHE_ADD("BUILDNAME:STRING=Win7-vce10-${IN_CONFIG}")
 CACHE_ADD("SITE:STRING=paulyimac_win7")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release")
-CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=C:/Users/picsl/tk/fltk13/install-${MYBIN}/lib/fltk.lib")
-CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/${MYBIN}/qt-everywhere-opensource-src-4.8.2/bin/qmake.exe" PRODUCT itksnap BRANCH qtsnap)
-CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}" PRODUCT itksnap BRANCH dev32)
 CACHE_ADD("VCREDIST_EXE:FILEPATH=${SDKDIR}/Redist/VC/vcredist_${WINSUFFIX}.exe")
 CACHE_ADD("SCP_PROGRAM:STRING=c:/cygwin/bin/scp.exe")
 
-# SNAP-specific settings
-CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON" PRODUCT "itksnap" BRANCH "master")
-CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON" PRODUCT "itksnap" BRANCH "master")
-CACHE_ADD("SNAP_USE_FLTK_ZLIB:BOOL=ON" PRODUCT "itksnap" BRANCH "master")
+# Library directory: path where all the libraries are build (this is only used internally)
+SET(TKDIR "C:/Users/picsl/tk")
 
+# Add product-specific cache entries
+IF(NEED_FLTK)
+  CACHE_ADD("SNAP_USE_FLTK_PNG:BOOL=ON")
+  CACHE_ADD("SNAP_USE_FLTK_JPEG:BOOL=ON")
+  CACHE_ADD("SNAP_USE_FLTK_ZLIB:BOOL=ON")
+  CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=C:/Users/picsl/tk/fltk13/install-${MYBIN}/lib/fltk.lib")
+ENDIF(NEED_FLTK)
+
+IF(NEED_QT4)
+  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/${MYBIN}/qt-everywhere-opensource-src-4.8.2/bin/qmake.exe" PRODUCT itksnap BRANCH qtsnap)
+ENDIF(NEED_QT4)
+
+IF(NEED_QT5)
+  SETCOND(QT5_PATH "C:/Qt5/5.3/msvc2013_64_opengl/lib/cmake" CONFIG vce64rel)
+  SETCOND(QT5_PATH "C:/Qt5/5.3/msvc2010_opengl/lib/cmake" CONFIG vce32rel)
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}" PRODUCT itksnap BRANCH dev32)
+  ENV_ADD(PATH "QT5_PATH/bin\;$ENV{PATH}")
+ENDIF(NEED_QT5)
+  
 # C3D specific settings
 CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
 
