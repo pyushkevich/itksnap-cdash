@@ -9,7 +9,7 @@ CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.5.2/${IN_CONFIG}" BRANCH "dev32")
 
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v5.8.0/${IN_CONFIG}" BRANCH "master")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v5.8.0/${IN_CONFIG}" BRANCH "qtsnap")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.0.0/${IN_CONFIG}" BRANCH "dev32")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${IN_CONFIG}" BRANCH "dev32")
 
 # SPECIFY which products we need
 SETCOND(NEED_FLTK ON BRANCH "master")
