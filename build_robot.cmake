@@ -4,32 +4,24 @@
 #
 # This script is used to automate building of nightly and experimental ITK-SNAP
 # binaries on various platforms. The script must be invoked with ctest (from CMake)
-# with parameters specifying the build machine, the build configuration, and the 
-# git branch of ITK-SNAP to be executed.
+# as follows
 #
-# Example Usage:
-#
-# ctest -V -S build_robot.cmake,itksnap,master,Nightly,paulyimac-MacOS,gcc64rel
+# ctest -V -S cdash/build_robot.cmake,paulyimac-MacOS,Nightly
 #
 # Explanation of parameters:
 #
-#    itksnap          The name of the product to build (typically itksnap)
-#    master           The name of the GIT branch to build on
-#    Nightly          Type of Dashboard build to perform (Nightly,Experimental)
 #    paulyimac-MacOS  The name of the site where the build is being run. The
 #                     site can be a computer or a virtual machine on a computer.
-#                     The sites directory must contain a corresponding script
-#                     (e.g., paulyimac-MacOS.cmake) with site-specific config.
-#    gcc64rel         The build configuration (compiler, 32 or 64 bits, release
-#                     or debug, etc.). This can be machine specific and is used
-#                     to tell the build script what to do.
+#                     The sites directory must contain a corresponding subdirectory
+#                     (e.g., paulyimac-MacOS) with site-specific config files 
+#                     global.cmake and build.cmake
+#    Nightly          Type of Dashboard build to perform (Nightly,Experimental)
 #
 # What the script will do
 # 
-#    The script will create a source directory and a build directory. It will check
-#    out (or update) code in the source directory, and configure CMake and build in
-#    the build directory. It will send the results of the build to the ITK-SNAP
-#    Dashboard, located at itksnap.org/cdash
+#    The script will build the ITK and VTK libraries (appropriate versions) and 
+#    several branches of ITK-SNAP and C3D. It will send the results of the build 
+#    to the ITK-SNAP Dashboard, located at itksnap.org/cdash
 #
 
 # Include some macro code
@@ -77,10 +69,10 @@ CHECK_SITE_VAR(GIT_BINARY)
 
 # Set the list of products
 SET(BUILD_LIST
-  "vtk v6.1.0 Nightly"
   "itk v4.2.1 Nightly"
   "itk v4.5.2 Nightly"
   "vtk v5.8.0 Nightly"
+  "vtk v6.1.0 Nightly"
   "itksnap dev32 ${IN_GLOBAL_MODEL}"
   "itksnap qtsnap ${IN_GLOBAL_MODEL}"
   "itksnap master ${IN_GLOBAL_MODEL}"
