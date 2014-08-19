@@ -77,10 +77,10 @@ CHECK_SITE_VAR(GIT_BINARY)
 
 # Set the list of products
 SET(BUILD_LIST
+  "vtk v6.1.0 Nightly"
   "itk v4.2.1 Nightly"
   "itk v4.5.2 Nightly"
   "vtk v5.8.0 Nightly"
-  "vtk v6.0.0 Nightly"
   "itksnap dev32 ${IN_GLOBAL_MODEL}"
   "itksnap qtsnap ${IN_GLOBAL_MODEL}"
   "itksnap master ${IN_GLOBAL_MODEL}"
