@@ -41,8 +41,8 @@ IF(NEED_FLTK)
 ENDIF(NEED_FLTK)
 
 IF(NEED_QT4)
-  SETCOND(QT4DIR "/mnt/build/pauly/Qt/4.8.6/gcc_64/" CONFIG gcc64rel)
-  SETCOND(QT4DIR "/mnt/build/pauly/Qt/4.8.6/gcc_32/" CONFIG gcc32rel)
+  SETCOND(QT4DIR "/home/picsl/Qt/4.8.6/gcc_64/" CONFIG gcc64rel)
+  SETCOND(QT4DIR "/home/picsl/Qt/4.8.6/gcc_32/" CONFIG gcc32rel)
   CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${QT4DIR}/bin/qmake")
 ENDIF(NEED_QT4)
 
