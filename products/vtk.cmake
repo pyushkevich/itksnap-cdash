@@ -4,7 +4,7 @@ IF(UNIX)
     "sh -c \"${GIT_BINARY} clone http://vtk.org/VTK.git ${IN_PRODUCT} && cd ${IN_PRODUCT} && ${GIT_BINARY} checkout ${IN_BRANCH}\"")
 ELSEIF(WIN32)
   SET(PRODUCT_CHECKOUT_COMMAND 
-    "cmd.exe /c \"${GIT_BINARY} clone http://vtk.org/VTK.git ${IN_PRODUCT} && cd ${IN_PRODUCT} && ${GIT_BINARY} checkout ${IN_BRANCH}\"")
+      "\"${GIT_BINARY}\" clone -b ${IN_BRANCH} http://vtk.org/VTK.git ${IN_PRODUCT}")
 ENDIF(UNIX)
 
 SET(PRODUCT_EXTERNAL ON)
