@@ -33,7 +33,7 @@ CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
 
 # Library directory: path where all the libraries are build (this is only used internally)
-SET(TKDIR "/Users/picsl/tk")
+SET(TKDIR "/Users/pauly/tk")
 
 # Add product-specific cache entries
 IF(NEED_FLTK)
@@ -48,6 +48,6 @@ IF(NEED_QT4)
 ENDIF(NEED_QT4)
 
 IF(NEED_QT5)
-  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=${TKDIR}/Qt5/5.3/clang_64/lib/cmake")
+  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=${TKDIR}/Qt/5.3/clang_64/lib/cmake")
 ENDIF(NEED_QT5)
   

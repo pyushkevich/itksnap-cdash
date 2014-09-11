@@ -28,29 +28,36 @@
 INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
 
 # ---------------------------------------
+# All products / branches included here
+# ---------------------------------------
+SET(EXTERNAL_PRODUCTS
+  "itk v4.2.1"
+  "itk v4.5.2"
+  "vtk v5.8.0"
+  "vtk v6.1.0")
+
+SET(INTERNAL_PRODUCTS
+  "itksnap dev32"
+  "itksnap qtsnap"
+  "itksnap master"
+  "c3d master")
+
+# ---------------------------------------
 # Parse the parameter settings
 # ---------------------------------------
-STRING(REPLACE , " " PARAM_LIST ${CTEST_SCRIPT_ARG})
-SEPARATE_ARGUMENTS(${PARAM_LIST} UNIX_COMMAND "${PARAM_LIST}")
-LIST(GET ${PARAM_LIST} 0 IN_SITE)
-LIST(GET ${PARAM_LIST} 1 IN_GLOBAL_MODEL)
-LIST(LENGTH ${PARAM_LIST} NUM_PARAM)
 
-# Check the number of parameters
-IF(NOT ${NUM_PARAM} EQUAL 2)
- MESSAGE(FATAL_ERROR "Wrong number of parameters to the script. Read the docs in the script.")
-ENDIF(NOT ${NUM_PARAM} EQUAL 2) 
+# Make sure the required variables are set for the site
+CHECK_SITE_VAR(IN_GLOBAL_MODEL)
+CHECK_SITE_VAR(IN_SITE)
+CHECK_SITE_VAR(GIT_UID)
+CHECK_SITE_VAR(GIT_BINARY)
+CHECK_SITE_VAR(CMAKE_BINARY_PATH)
+CHECK_SITE_VAR(CONFIG_LIST)
 
 # Make sure model is valid
 IF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Experimental"))
   MESSAGE(FATAL_ERROR "Unknown model ${IN_GLOBAL_MODEL}, should be Nightly or Experimental")
 ENDIF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Experimental"))
-
-# Check the existance of the site-specific script
-SET(SITE_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}/global.cmake)
-if(NOT EXISTS ${SITE_SCRIPT})
-  MESSAGE(FATAL_ERROR "Site-specific script ${SITE_SCRIPT} does not exist")
-endif(NOT EXISTS ${SITE_SCRIPT})
 
 # Check the existance of the site-specific cache/env script
 SET(SITE_BUILD_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}/build.cmake)
@@ -60,24 +67,34 @@ endif(NOT EXISTS ${SITE_BUILD_SCRIPT})
 
 # Include the machine-specific info without a product
 SET(IN_PRODUCT)
-INCLUDE(${SITE_SCRIPT})
 
-# Make sure the required variables are set for the site
-CHECK_SITE_VAR(CONFIG_LIST)
-CHECK_SITE_VAR(GIT_UID)
-CHECK_SITE_VAR(GIT_BINARY)
+# Generate the build list
+SET(BUILD_LIST)
 
-# Set the list of products
-SET(BUILD_LIST
-  "itk v4.2.1 Nightly"
-  "itk v4.5.2 Nightly"
-  "vtk v5.8.0 Nightly"
-  "vtk v6.1.0 Nightly"
-  "itksnap dev32 ${IN_GLOBAL_MODEL}"
-  "itksnap qtsnap ${IN_GLOBAL_MODEL}"
-  "itksnap master ${IN_GLOBAL_MODEL}"
-  "c3d master ${IN_GLOBAL_MODEL}"
-)
+IF(NOT PRODUCT_MASK)
+  SET(PRODUCT_MASK ".*")
+ENDIF(NOT PRODUCT_MASK)
+
+# Add external products
+IF(NOT SKIP_EXTERNAL)
+  FOREACH(PROD ${EXTERNAL_PRODUCTS})
+    IF(PROD MATCHES ${PRODUCT_MASK})
+      SET(BUILD_LIST ${BUILD_LIST} "${PROD} Nightly")
+    ENDIF(PROD MATCHES ${PRODUCT_MASK})
+  ENDFOREACH(PROD)
+ENDIF(NOT SKIP_EXTERNAL)
+
+# Add internal products
+FOREACH(PROD ${INTERNAL_PRODUCTS})
+  IF(PROD MATCHES ${PRODUCT_MASK})
+    SET(BUILD_LIST ${BUILD_LIST} "${PROD} ${IN_GLOBAL_MODEL}")
+  ENDIF(PROD MATCHES ${PRODUCT_MASK})
+ENDFOREACH(PROD)
+
+MESSAGE("==================== PRODUCT LIST ====================")
+FOREACH(PROD ${BUILD_LIST})
+  MESSAGE(" --> ${PROD}")
+ENDFOREACH(PROD)
 
 # The build of each product is implemented as a function in order to
 # have a clean scope for each product built
