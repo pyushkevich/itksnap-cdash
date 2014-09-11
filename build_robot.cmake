@@ -76,7 +76,8 @@ SET(BUILD_LIST
   "itksnap dev32 ${IN_GLOBAL_MODEL}"
   "itksnap qtsnap ${IN_GLOBAL_MODEL}"
   "itksnap master ${IN_GLOBAL_MODEL}"
-  "c3d master ${IN_GLOBAL_MODEL}")
+  "c3d master ${IN_GLOBAL_MODEL}"
+)
 
 # The build of each product is implemented as a function in order to
 # have a clean scope for each product built
@@ -181,7 +182,9 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
 
       # For nightly builds that are uploaders
       if(DO_UPLOAD)
+	MESSAGE("*** BUILDING TARGET package ***")
         ctest_build(TARGET package APPEND)
+	MESSAGE("*** BUILDING TARGET upload_nightly ***")
         ctest_build(TARGET upload_nightly APPEND)
       endif(DO_UPLOAD)
 
