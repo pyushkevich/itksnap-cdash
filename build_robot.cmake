@@ -100,6 +100,9 @@ ENDFOREACH(PROD)
 # have a clean scope for each product built
 FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
 
+  # Clear the SKIP flag
+  UNSET(SKIP_BUILD)
+
   # Set some default options, so that we don't need to set them
   # separately for each site. Some sites may need to override this
   SET(CTEST_CMAKE_GENERATOR "Unix Makefiles")
