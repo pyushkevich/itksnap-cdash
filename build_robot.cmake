@@ -204,8 +204,15 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
       if(DO_UPLOAD)
 	MESSAGE("*** BUILDING TARGET package ***")
         ctest_build(TARGET package APPEND)
-	MESSAGE("*** BUILDING TARGET upload_nightly ***")
-        ctest_build(TARGET upload_nightly APPEND)
+
+	if(IN_GLOBAL_MODEL MATCHES "Nightly")
+	  MESSAGE("*** BUILDING TARGET upload_nightly ***")
+          ctest_build(TARGET upload_nightly APPEND)
+        else(IN_GLOBAL_MODEL MATCHES "Nightly")
+	  MESSAGE("*** BUILDING TARGET upload_experimental ***")
+          ctest_build(TARGET upload_experimental APPEND)
+	endif(IN_GLOBAL_MODEL MATCHES "Nightly")
+	  
       endif(DO_UPLOAD)
 
     ENDIF(PRODUCT_EXTERNAL)

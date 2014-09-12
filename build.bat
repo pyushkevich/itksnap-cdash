@@ -67,7 +67,7 @@ CALL "%SITESCRIPT%"
 
 echo Updating the CDASH repo
 pushd cdash
-%GIT_BINARY% pull
+"%GIT_BINARY%" pull
 popd
 
 "%CMAKE_BINARY_PATH%/ctest.exe" -V ^
