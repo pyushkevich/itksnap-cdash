@@ -102,7 +102,7 @@ IF(NEED_FLTK)
 ENDIF(NEED_FLTK)
 
 IF(NEED_QT4)
-  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/${MYBIN}/qt-everywhere-opensource-src-4.8.2/bin/qmake.exe" PRODUCT itksnap BRANCH qtsnap)
+  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${TKDIR}/Qt/${MYBIN}/qt-everywhere-opensource-src-4.8.2/bin/qmake.exe")
 ENDIF(NEED_QT4)
 
 IF(NEED_QT5)

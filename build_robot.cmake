@@ -37,9 +37,9 @@ SET(EXTERNAL_PRODUCTS
   "vtk v6.1.0")
 
 SET(INTERNAL_PRODUCTS
-  "itksnap dev32"
-  "itksnap qtsnap"
   "itksnap master"
+  "itksnap rel_3.2"
+  "itksnap rel_2.4"
   "c3d master")
 
 # ---------------------------------------
