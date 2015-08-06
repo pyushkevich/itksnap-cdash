@@ -182,7 +182,10 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
     MESSAGE("Initial Cache ${INIT_CACHE}")
 
     # Start the build process
+    MESSAGE("Running ctest_start")
     ctest_start(${IN_MODEL})
+
+    MESSAGE("Running ctest_update")
     ctest_update(RETURN_VALUE UPDATE_COUNT)
     MESSAGE("UPDATE resulted in ${UPDATE_COUNT} updated files")
 
@@ -190,14 +193,21 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
     IF(PRODUCT_EXTERNAL)
 
       # Don't bother re-configuring external products
+      MESSAGE("Running ctest_configure")
       ctest_configure()
+
+      MESSAGE("Running ctest_build")
       ctest_build()
 
     ELSE(PRODUCT_EXTERNAL)
 
+      MESSAGE("Running ctest_configure")
       ctest_configure()
+      MESSAGE("Running ctest_build")
       ctest_build()
+      MESSAGE("Running ctest_test")
       ctest_test()
+      MESSAGE("Running ctest_submit")
       ctest_submit()
 
       # For nightly builds that are uploaders
