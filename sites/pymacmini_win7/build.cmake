@@ -11,6 +11,9 @@
 # This site uploads all of its builds
 SET(DO_UPLOAD ON)
 
+# Library directory: path where all the libraries are build (this is only used internally)
+SET(TKDIR "C:/Users/picsl/tk")
+
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
 IF(${IN_CONFIG} MATCHES vce64rel)
@@ -52,7 +55,12 @@ IF(${IN_CONFIG} MATCHES vce64rel)
 
   # These cache entries are configuration specific. I ran cmake gui from the VC prompt with Nmake as the 
   # build system to generate these
-  CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${VCBINDIR}/nmake.exe")
+  
+  # Add JOM to the path
+  ENV_ADD(PATH "${TKDIR}/jom_1_0_16;$ENV{PATH}")
+  
+  #CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${VCBINDIR}/nmake.exe")
+  CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${TKDIR}/jom_1_0_16/jom.exe")
   CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
   CACHE_ADD("CMAKE_C_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /D_CRT_SECURE_NO_WARNINGS /wd4250")
   CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
@@ -92,8 +100,11 @@ ELSEIF(${IN_CONFIG} MATCHES vce32rel)
   ENV_ADD(CC "${VCDIR}/VC/Bin/cl.exe")
   ENV_ADD(CXX "${VCDIR}/VC/Bin/cl.exe")
 
+  # Add JOM to the path
+  ENV_ADD(PATH "${TKDIR}/jom_1_0_16;$ENV{PATH}")
+  
   # Put the redistributable
-  CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${VCBINDIR}/nmake.exe")
+  CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${TKDIR}/jom_1_0_16/jom.exe")
   CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR}/cl.exe")
   CACHE_ADD("CMAKE_C_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /D_CRT_SECURE_NO_WARNINGS /wd4250")
   CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR}/cl.exe")
@@ -108,17 +119,15 @@ ELSE(${IN_CONFIG} MATCHES vce64rel)
 ENDIF(${IN_CONFIG} MATCHES vce64rel)
 
 # Set the Generator
-SET(CTEST_CMAKE_GENERATOR "NMake Makefiles")
+SET(CTEST_CMAKE_GENERATOR "NMake Makefiles JOM")
 
 # Add cache entries
-CACHE_ADD("MAKECOMMAND:STRING=nmake -i ")
+CACHE_ADD("MAKECOMMAND:STRING=jom.exe -i -j 4")
 CACHE_ADD("BUILDNAME:STRING=Win7-${VCVER}-${IN_CONFIG}")
 CACHE_ADD("SITE:STRING=paulyimac_win7")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release")
 CACHE_ADD("SCP_PROGRAM:STRING=c:/cygwin/bin/scp.exe")
 
-# Library directory: path where all the libraries are build (this is only used internally)
-SET(TKDIR "C:/Users/picsl/tk")
 
 # Add product-specific cache entries
 IF(NEED_FLTK)
