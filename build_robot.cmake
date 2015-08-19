@@ -100,6 +100,18 @@ ENDFOREACH(PROD)
 # have a clean scope for each product built
 FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
 
+  # We now allow configs to have an optional part, specified as gcc64rel.qt4 
+  # for example to specify that we want to set some flags differently for a
+  # build. To facilitate this, we define the CONFIG_BASE and CONFIG_EXT vars
+  # NOTE: only one extension is currently supported!
+  unset(CONFIG_EXT)
+  string(REPLACE "." ";" CONFIG_PART_LIST ${IN_CONFIG})
+  list(LENGTH CONFIG_PART_LIST CONFIG_PART_LIST_LEN)
+  list(GET CONFIG_PART_LIST 0 CONFIG_BASE)
+  if(${CONFIG_PART_LIST_LEN} GREATER 1)
+    list(GET CONFIG_PART_LIST 1 CONFIG_EXT)
+  endif(${CONFIG_PART_LIST_LEN} GREATER 1)
+
   # Clear the SKIP flag
   UNSET(SKIP_BUILD)
 

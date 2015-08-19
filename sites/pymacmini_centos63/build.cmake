@@ -14,9 +14,15 @@ SET(TKDIR "/home/picsl/tk")
 # This is an upload site
 SET(DO_UPLOAD TRUE)
 
+# Skip most products when .qt4 options used
+IF(${CONFIG_EXT} MATCHES "qt4")
+  SET(SKIP_BUILD ON)
+  SETCOND(SKIP_BUILD OFF PRODUCT itksnap BRANCH master)
+ENDIF(${CONFIG_EXT} MATCHES "qt4")
+
 # Set build flags
-SETCOND(CFLAGS "-fno-strict-aliasing -fPIC" CONFIG gcc64rel)
-SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG gcc32rel)
+SETCOND(CFLAGS "-fno-strict-aliasing -fPIC" CONFIG "gcc64.*")
+SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG "gcc32.*")
 
 # Allow parallel builds
 ENV_ADD(MAKEFLAGS "-j 2")
@@ -40,21 +46,21 @@ IF(NEED_FLTK)
 ENDIF(NEED_FLTK)
 
 IF(NEED_QT4)
-  SETCOND(QT4DIR "/home/picsl/Qt/4.8.6/gcc_64/" CONFIG gcc64rel)
-  SETCOND(QT4DIR "/home/picsl/Qt/4.8.6/gcc_32/" CONFIG gcc32rel)
+  SETCOND(QT4DIR "/home/picsl/Qt48/install_gcc64" CONFIG "gcc64.*")
+  SETCOND(SKIP_BUILD ON CONFIG "gcc32.*")
   CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${QT4DIR}/bin/qmake")
 ENDIF(NEED_QT4)
 
 IF(NEED_QT5)
-  SETCOND(QT5DIR "/home/picsl/Qt_5.3/5.3/gcc_64" CONFIG gcc64rel)
-  SETCOND(QT5DIR "/home/picsl/Qt32/5.3/gcc" CONFIG gcc32rel)
+  SETCOND(QT5DIR "/home/picsl/Qt_5.3/5.3/gcc_64" CONFIG "gcc64.*")
+  SETCOND(QT5DIR "/home/picsl/Qt32/5.3/gcc" CONFIG "gcc32.*")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ENDIF(NEED_QT5)
 
 IF(NEED_QT54)
-  SETCOND(QT5DIR "/home/picsl/Qt/5.4/gcc_64" CONFIG gcc64rel)
-  SETCOND(SKIP_BUILD ON CONFIG gcc32rel)
+  SETCOND(QT5DIR "/home/picsl/Qt/5.4/gcc_64" CONFIG "gcc64.*")
+  SETCOND(SKIP_BUILD ON CONFIG "gcc32.*")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ENDIF(NEED_QT54)
