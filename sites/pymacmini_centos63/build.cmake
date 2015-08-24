@@ -20,6 +20,9 @@ IF(${CONFIG_EXT} MATCHES "qt4")
   SETCOND(SKIP_BUILD OFF PRODUCT itksnap BRANCH master)
 ENDIF(${CONFIG_EXT} MATCHES "qt4")
 
+# Set SNAP test acceleration factor
+CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.5" PRODUCT itksnap)
+
 # Set build flags
 SETCOND(CFLAGS "-fno-strict-aliasing -fPIC" CONFIG "gcc64.*")
 SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG "gcc32.*")

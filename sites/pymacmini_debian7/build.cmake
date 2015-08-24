@@ -18,6 +18,9 @@ SET(DO_UPLOAD OFF)
 SETCOND(CFLAGS "-fno-strict-aliasing -fPIC" CONFIG gcc64rel)
 SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG gcc32rel)
 
+# Set SNAP test acceleration factor
+CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.5" PRODUCT itksnap)
+
 # Allow parallel builds
 ENV_ADD(MAKEFLAGS "-j 2")
 

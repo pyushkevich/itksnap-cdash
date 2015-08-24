@@ -14,6 +14,9 @@ SET(DO_UPLOAD ON)
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "C:/Users/picsl/tk")
 
+# Set SNAP test acceleration factor
+CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.25" PRODUCT itksnap)
+
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
 IF(${IN_CONFIG} MATCHES vce64rel)
