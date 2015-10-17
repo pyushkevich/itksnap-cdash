@@ -38,8 +38,7 @@ SET(EXTERNAL_PRODUCTS
 
 SET(INTERNAL_PRODUCTS
   "itksnap master"
-  "itksnap rel_3.2"
-  "itksnap rel_2.4"
+  "itksnap rel_3.4"
   "c3d master")
 
 # ---------------------------------------

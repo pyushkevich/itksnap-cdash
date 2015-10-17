@@ -14,12 +14,6 @@ SET(DO_UPLOAD ON)
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "C:/Users/picsl/tk")
 
-# Skip most products when .qt4 options used
-IF(${CONFIG_EXT} MATCHES "qt4")
-  SET(SKIP_BUILD ON)
-  SETCOND(SKIP_BUILD OFF PRODUCT itksnap BRANCH master)
-ENDIF(${CONFIG_EXT} MATCHES "qt4")
-
 # Set SNAP test acceleration factor
 CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.25" PRODUCT itksnap)
 

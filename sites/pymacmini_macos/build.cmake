@@ -11,12 +11,6 @@
 # This site uploads all of its builds
 SET(DO_UPLOAD ON)
 
-# Skip most products when .qt4 options used
-IF(${CONFIG_EXT} MATCHES "qt4")
-  SET(SKIP_BUILD ON)
-  SETCOND(SKIP_BUILD OFF PRODUCT itksnap BRANCH master)
-ENDIF(${CONFIG_EXT} MATCHES "qt4")
-
 # Mac Framework directory
 SET(MINVER 10.7)
 SET(FWDIR "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk")

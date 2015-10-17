@@ -14,12 +14,6 @@ SET(TKDIR "/home/picsl/tk")
 # This is an upload site
 SET(DO_UPLOAD TRUE)
 
-# Skip most products when .qt4 options used
-IF(${CONFIG_EXT} MATCHES "qt4")
-  SET(SKIP_BUILD ON)
-  SETCOND(SKIP_BUILD OFF PRODUCT itksnap BRANCH master)
-ENDIF(${CONFIG_EXT} MATCHES "qt4")
-
 # Set SNAP test acceleration factor
 CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.5" PRODUCT itksnap)
 
