@@ -9,7 +9,7 @@
 # may need to be set on some platforms and configurations
 
 # This site uploads all of its builds
-SET(DO_UPLOAD ON)
+SET(DO_UPLOAD OFF)
 
 # Mac Framework directory
 SET(MINVER 10.7)
@@ -51,4 +51,8 @@ ENDIF(NEED_QT4)
 IF(NEED_QT5)
   CACHE_ADD("CMAKE_PREFIX_PATH:STRING=${TKDIR}/Qt/5.3/clang_64/lib/cmake")
 ENDIF(NEED_QT5)
+
+IF(NEED_QT54)
+  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.4/clang_64/lib/cmake")
+ENDIF(NEED_QT54)
   
