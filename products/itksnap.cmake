@@ -1,6 +1,6 @@
 # DESCRIBE THE PRODUCT
 SET(PRODUCT_CHECKOUT_COMMAND 
-  "${GIT_BINARY} clone -b ${IN_BRANCH} ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src ${IN_PRODUCT}")
+  "${GIT_BINARY} clone -b ${IN_BRANCH} --recursive ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src ${IN_PRODUCT}")
 
 # Check if a Qt 4.x build is requested
 IF(${CONFIG_EXT} MATCHES ".*qt4.*")
