@@ -200,6 +200,8 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
     ctest_update(RETURN_VALUE UPDATE_COUNT)
     MESSAGE("UPDATE resulted in ${UPDATE_COUNT} updated files")
 
+
+
     # Different rules for own and external products
     IF(PRODUCT_EXTERNAL)
 
@@ -211,6 +213,11 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
       ctest_build()
 
     ELSE(PRODUCT_EXTERNAL)
+
+      MESSAGE("Updating git submodules")
+      execute_process(
+        COMMAND "${CTEST_UPDATE_COMMAND}" submodule update --init
+        WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
 
       MESSAGE("Running ctest_configure")
       ctest_configure()
