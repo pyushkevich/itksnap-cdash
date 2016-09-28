@@ -5,7 +5,7 @@ SET(PRODUCT_CHECKOUT_COMMAND
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.5.2/${IN_CONFIG}")
 
 # SPECIFY which products we need
-SETCOND(NEED_QT5 ON BRANCH "master")
+SETCOND(NEED_QT54 ON BRANCH "master")
 
 # Skip special qt4 builds
 IF(${CONFIG_EXT} MATCHES ".*qt4.*")
