@@ -12,10 +12,13 @@
 SET(DO_UPLOAD ON)
 
 # Library directory: path where all the libraries are build (this is only used internally)
-SET(TKDIR "C:/Users/paul/tk")
+SET(TKDIR "E:/tk")
+
+# Where all the curl libraries are built
+SET(CURLROOT "E:/tk/libcurl/curl-7.56.1/builds")
 
 # Set SNAP test acceleration factor
-CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.25" PRODUCT itksnap)
+CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=1.0" PRODUCT itksnap)
 
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
@@ -62,6 +65,13 @@ IF(${IN_CONFIG} MATCHES vce64.*)
   CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
   CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
   CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x64.exe")
+
+  # Curl directory
+  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
+  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
+  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a.lib" PRODUCT itksnap CONFIG .*rel.*)
+  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a_debug.lib" PRODUCT itksnap CONFIG .*dbg.*)
+  CACHE_ADD("CURL_INCLUDE_DIR:PATH=${CURLDIR}/include" PRODUCT itksnap)
 
 ELSEIF(${IN_CONFIG} MATCHES vce32.*)
 
@@ -113,15 +123,16 @@ ENDIF(${IN_CONFIG} MATCHES vce64.*)
 SET(CTEST_CMAKE_GENERATOR "NMake Makefiles JOM")
 
 # Add JOM to the path
-ENV_ADD(PATH "${TKDIR}/jom_1_0_16;$ENV{PATH}")
+ENV_ADD(PATH "${TKDIR}/jom_1_1_2;$ENV{PATH}")
 
 # Add cache entries
-CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${TKDIR}/jom_1_0_16/jom.exe")
-CACHE_ADD("MAKECOMMAND:STRING=jom.exe -i -j 4")
+CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${TKDIR}/jom_1_1_2/jom.exe")
+CACHE_ADD("MAKECOMMAND:STRING=jom.exe -i -j 12")
 CACHE_ADD("BUILDNAME:STRING=Win7-${VCVER}-${IN_CONFIG}")
 CACHE_ADD("SITE:STRING=pyhisto")
-CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release")
-CACHE_ADD("SCP_PROGRAM:STRING=C:/Program Files (x86)/Git/bin/scp.exe")
+CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release" CONFIG .*rel.*)
+CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Debug" CONFIG .*dbg.*)
+CACHE_ADD("SCP_PROGRAM:STRING=C:/Program Files/Git/usr/bin/scp.exe")
 CACHE_ADD("CMAKE_C_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /D_CRT_SECURE_NO_WARNINGS /wd4250")
 CACHE_ADD("CMAKE_CXX_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /EHsc /GR /D_CRT_SECURE_NO_WARNINGS /wd4250")
 CACHE_ADD("CMAKE_RC_COMPILER:FILEPATH=${SDKBINDIR}/RC.Exe")
@@ -129,23 +140,18 @@ CACHE_ADD("CMAKE_RC_COMPILER:FILEPATH=${SDKBINDIR}/RC.Exe")
 # Add product-specific cache entries
 
 IF(NEED_QT4)
-  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=C:/Users/picsl/tk/Qt-4.8.6/${MYBIN}/bin/qmake.exe")
+  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=E:/tk/Qt48/msvc2013_64/bin/qmake.exe")
+ELSEIF(NEED_QT5)
+  SETCOND(SKIP_BUILD ON)
+ELSEIF(NEED_QT54)
+  SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
+  SETCOND(QT5_PATH "E:/tk/Qt/5.4/msvc2013_64/lib/cmake" CONFIG vce64.*)
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
+ELSEIF(NEED_QT56)
+  SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
+  SETCOND(QT5_PATH "E:/tk/Qt/5.6/msvc2013_64/lib/cmake" CONFIG vce64.*)
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
 ENDIF(NEED_QT4)
-
-IF(NEED_QT5)
-  # Currently there is no way to build 64 bit using Qt5
-  SETCOND(QT5_PATH "C:/Qt5/5.3/msvc2013_64_opengl/lib/cmake" CONFIG vce64.*)
-  SETCOND(QT5_PATH "C:/Qt5/5.3/msvc2013_opengl/lib/cmake" CONFIG vce32.*)
-  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
-  #ENV_ADD(PATH "${QT5_PATH}/bin\;$ENV{PATH}")
-ENDIF(NEED_QT5)
-  
-IF(NEED_QT54)
-  SETCOND(QT5_PATH "C:/Qt/5.4/msvc2013_64/lib/cmake" CONFIG vce64.*)
-  SETCOND(QT5_PATH "C:/Qt/5.4/msvc2013/lib/cmake" CONFIG vce32.*)
-  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
-ENDIF(NEED_QT54)
 
 # C3D specific settings
 CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
-

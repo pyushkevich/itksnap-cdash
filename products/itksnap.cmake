@@ -2,6 +2,13 @@
 SET(PRODUCT_CHECKOUT_COMMAND 
   "${GIT_BINARY} clone -b ${IN_BRANCH} --recursive ssh://${GIT_UID}@git.code.sf.net/p/itk-snap/src ${IN_PRODUCT}")
 
+# Init all GUI toolkits to OFF
+SET(NEED_QT4 OFF)
+SET(NEED_FLTK OFF)
+SET(NEED_QT5 OFF)
+SET(NEED_QT54 OFF)
+SET(NEED_QT56 OFF)
+
 # Check if a Qt 4.x build is requested
 IF(${CONFIG_EXT} MATCHES ".*qt4.*")
 
@@ -14,18 +21,14 @@ IF(${CONFIG_EXT} MATCHES ".*qt4.*")
 
   # Request Qt4
   SET(NEED_QT4 ON)
-  SET(NEED_FLTK OFF)
-  SET(NEED_QT5 OFF)
-  SET(NEED_QT54 OFF)
 
 ELSE(${CONFIG_EXT} MATCHES ".*qt4.*")
 
   # SPECIFY which products we need
-  SET(NEED_QT4 OFF)
   SETCOND(NEED_FLTK ON BRANCH "rel_2.4")
   SETCOND(NEED_QT5 ON BRANCH "rel_3.2")
   SETCOND(NEED_QT54 ON BRANCH "rel_3.4")
-  SETCOND(NEED_QT54 ON BRANCH "master")
+  SETCOND(NEED_QT56 ON BRANCH "master")
 
 ENDIF(${CONFIG_EXT} MATCHES ".*qt4.*")
 
