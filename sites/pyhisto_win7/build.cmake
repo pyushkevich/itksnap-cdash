@@ -14,6 +14,9 @@ SET(DO_UPLOAD ON)
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "E:/tk")
 
+# Where all the curl libraries are built
+SET(CURLROOT "E:/tk/libcurl/curl-7.56.1/builds")
+
 # Set SNAP test acceleration factor
 CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=1.0" PRODUCT itksnap)
 
@@ -62,6 +65,13 @@ IF(${IN_CONFIG} MATCHES vce64.*)
   CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
   CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
   CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x64.exe")
+
+  # Curl directory
+  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
+  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
+  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a.lib" PRODUCT itksnap CONFIG .*rel.*)
+  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a_debug.lib" PRODUCT itksnap CONFIG .*dbg.*)
+  CACHE_ADD("CURL_INCLUDE_DIR:PATH=${CURLDIR}/include" PRODUCT itksnap)
 
 ELSEIF(${IN_CONFIG} MATCHES vce32.*)
 
@@ -145,4 +155,3 @@ ENDIF(NEED_QT4)
 
 # C3D specific settings
 CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
-
