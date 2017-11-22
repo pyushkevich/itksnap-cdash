@@ -13,7 +13,6 @@ SET(DO_UPLOAD ON)
 
 # Mac Framework directory
 SET(MINVER 10.7)
-SET(FWDIR "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk")
 
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
@@ -30,7 +29,6 @@ CACHE_ADD("CMAKE_C_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated")
 CACHE_ADD("CMAKE_CXX_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated")
 CACHE_ADD("ARCH:STRING=${ARCH}")
 CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
-CACHE_ADD("CMAKE_OSX_SYSROOT:STRING=${FWDIR}")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
 
 # Library directory: path where all the libraries are build (this is only used internally)
