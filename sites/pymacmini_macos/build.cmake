@@ -31,6 +31,9 @@ CACHE_ADD("ARCH:STRING=${ARCH}")
 CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
 
+# Support for code signing
+CACHE_ADD("SNAP_MACOSX_CODESIGN_CERT:STRING=Developer ID Application: Paul Yushkevich (5A636Q488D)")
+
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/picsl/tk")
 
