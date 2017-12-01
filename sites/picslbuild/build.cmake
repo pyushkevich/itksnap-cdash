@@ -12,7 +12,7 @@
 SET(TKDIR "/mnt/build/pauly")
 
 # ICC and GCC directories
-SET(ICCDIR "/opt/intel/cce/10.1.018/")
+SET(ICCDIR "/mnt/build/pauly/icc/intel")
 SET(GCCDIR "/opt/rh/devtoolset-2/root/usr/")
 
 # This is an upload site
@@ -32,7 +32,7 @@ CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${GCCDIR}/bin/c++" CONFIG "gcc.*")
 CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${GCCDIR}/bin/gcc" CONFIG "gcc.*")
 
 # Allow parallel builds
-ENV_ADD(MAKEFLAGS "-j 12")
+ENV_ADD(MAKEFLAGS "-j 60")
 
 # Add cache entries
 CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i -j 12")
@@ -61,12 +61,16 @@ IF(NEED_FLTK)
 ENDIF(NEED_FLTK)
 
 IF(NEED_QT4)
-  SETCOND(QT4DIR "/mnt/build/pauly/Qt/qt-4.8.2-gcc64" CONFIG gcc64rel)
-  SETCOND(QT4DIR "/mnt/build/pauly/Qt/qt-4.8.2-gcc64" CONFIG icc64rel)
-  SETCOND(QT4DIR "/mnt/build/pauly/Qt/qt-4.8.2-gcc32" CONFIG gcc32rel)
+  SETCOND(QT4DIR "/mnt/build/pauly/Qt48" CONFIG ".*64rel")
+  SETCOND(QT4DIR "/mnt/build/pauly/Qt48_Debug" CONFIG ".*64dbg")
+  SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
   CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${QT4DIR}/bin/qmake")
-ENDIF(NEED_QT4)
-
-IF(NEED_QT5)
+ELSEIF(NEED_QT56)
+  SETCOND(QT5DIR "/mnt/build/pauly/Qt56" CONFIG ".*64rel*")
+  SETCOND(QT5DIR "/mnt/build/pauly/Qt56_Debug" CONFIG ".*64dbg*")
+  SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
+  ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
+ELSEIF(NEED_QT5)
   SET(SKIP_BUILD ON)
-ENDIF(NEED_QT5)
+ENDIF()
