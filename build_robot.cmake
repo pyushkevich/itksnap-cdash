@@ -36,6 +36,7 @@ SET(EXTERNAL_PRODUCTS
   "vtk v6.3.0")
 
 SET(INTERNAL_PRODUCTS
+  "greedy master"
   "itksnap master"
   "itksnap rel_3.6"
   "c3d master")
