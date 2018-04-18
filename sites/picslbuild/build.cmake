@@ -46,7 +46,7 @@ CACHE_ADD("CMAKE_CXX_FLAGS:STRING=${CFLAGS}")
 CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
 
 # For VTK we enable python because it is useful to have on the cluster
-CACHE_ADD("VTK_WRAP_PYTHON:BOOL=ON" PRODUCT "vtk")
+CACHE_ADD("VTK_WRAP_PYTHON:BOOL=OFF" PRODUCT "vtk")
 
 # We need this because this is a cross-compilation
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-i686" CONFIG "gcc32.*")
