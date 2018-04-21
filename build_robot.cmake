@@ -234,10 +234,10 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
         ctest_build(TARGET package APPEND)
 
 	if(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET upload_nightly ***")
+	  MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_nightly ***")
 	  ctest_build(TARGET ${IN_PRODUCT}_upload_nightly APPEND)
         else(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET upload_experimental ***")
+	  MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
 	  ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
 	endif(IN_GLOBAL_MODEL MATCHES "Nightly")
 	  
