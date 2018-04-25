@@ -36,7 +36,6 @@ SET(EXTERNAL_PRODUCTS
   "vtk v6.3.0")
 
 SET(INTERNAL_PRODUCTS
-  "itksnap alfabis-gui"
   "itksnap master"
   "greedy master"
   "itksnap rel_3.6"
@@ -231,17 +230,17 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
 
       # For nightly builds that are uploaders
       if(DO_UPLOAD)
-	MESSAGE("*** BUILDING TARGET package ***")
+        MESSAGE("*** BUILDING TARGET package ***")
         ctest_build(TARGET package APPEND)
 
-	if(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_nightly ***")
-	  ctest_build(TARGET ${IN_PRODUCT}_upload_nightly APPEND)
+        if(IN_GLOBAL_MODEL MATCHES "Nightly")
+          MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_nightly ***")
+          ctest_build(TARGET ${IN_PRODUCT}_upload_nightly APPEND)
         else(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
-	  ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
-	endif(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  
+          MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
+          ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
+        endif(IN_GLOBAL_MODEL MATCHES "Nightly")
+        
       endif(DO_UPLOAD)
 
     ENDIF(PRODUCT_EXTERNAL)
