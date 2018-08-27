@@ -33,8 +33,10 @@ INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
 SET(EXTERNAL_PRODUCTS
   "itk v4.5.2"
   "itk v4.8.2"
+  "itk v4.12.2"
   "vtk v6.1.0"
-  "vtk v6.3.0")
+  "vtk v6.3.0"
+  "vtk v7.1.1")
 
 SET(INTERNAL_PRODUCTS
   "itksnap master"
