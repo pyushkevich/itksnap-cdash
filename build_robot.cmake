@@ -31,7 +31,7 @@ INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
 # All products / branches included here
 # ---------------------------------------
 SET(EXTERNAL_PRODUCTS
-  "itk v4.5.2"
+  "itk v4.12.2"
   "itk v4.8.2"
   "itk v4.12.2"
   "vtk v6.1.0"
@@ -40,7 +40,8 @@ SET(EXTERNAL_PRODUCTS
 
 SET(INTERNAL_PRODUCTS
   "itksnap master"
-  "itksnap rel_3.4"
+  "greedy master"
+  "itksnap rel_3.6"
   "c3d master")
 
 # ---------------------------------------
@@ -232,17 +233,17 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
 
       # For nightly builds that are uploaders
       if(DO_UPLOAD)
-	MESSAGE("*** BUILDING TARGET package ***")
+        MESSAGE("*** BUILDING TARGET package ***")
         ctest_build(TARGET package APPEND)
 
-	if(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET upload_nightly ***")
-          ctest_build(TARGET upload_nightly APPEND)
+        if(IN_GLOBAL_MODEL MATCHES "Nightly")
+          MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_nightly ***")
+          ctest_build(TARGET ${IN_PRODUCT}_upload_nightly APPEND)
         else(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  MESSAGE("*** BUILDING TARGET upload_experimental ***")
-          ctest_build(TARGET upload_experimental APPEND)
-	endif(IN_GLOBAL_MODEL MATCHES "Nightly")
-	  
+          MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
+          ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
+        endif(IN_GLOBAL_MODEL MATCHES "Nightly")
+        
       endif(DO_UPLOAD)
 
     ENDIF(PRODUCT_EXTERNAL)
