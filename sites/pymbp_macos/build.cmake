@@ -12,8 +12,8 @@
 SET(DO_UPLOAD OFF)
 
 # Mac Framework directory
-SET(MINVER 10.7)
-SET(FWDIR "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk")
+SET(MINVER 10.12)
+SET(FWDIR "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
 
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
@@ -27,8 +27,8 @@ CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i -j 8")
 CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release" CONFIG ".*rel")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Debug" CONFIG ".*dbg")
-CACHE_ADD("CMAKE_C_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated -stdlib=libstdc++")
-CACHE_ADD("CMAKE_CXX_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated -stdlib=libstdc++")
+CACHE_ADD("CMAKE_C_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated")
+CACHE_ADD("CMAKE_CXX_FLAGS:STRING=-mmacosx-version-min=${MINVER} -Wno-deprecated -std=c++11")
 CACHE_ADD("ARCH:STRING=${ARCH}")
 CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
@@ -55,4 +55,8 @@ ENDIF(NEED_QT5)
 IF(NEED_QT54)
   CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.4/clang_64/lib/cmake")
 ENDIF(NEED_QT54)
+  
+IF(NEED_QT56)
+  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.12.6/clang_64/lib/cmake")
+ENDIF(NEED_QT56)
   
