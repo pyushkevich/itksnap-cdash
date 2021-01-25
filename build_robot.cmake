@@ -34,7 +34,7 @@ SET(EXTERNAL_PRODUCTS
   "itk v4.13.2"
   "itk v5.1.2"
   "vtk v6.3.0"
-  "vtk v8.1.1")
+  "vtk v9.0.1")
 
 SET(INTERNAL_PRODUCTS
   "itksnap master"
