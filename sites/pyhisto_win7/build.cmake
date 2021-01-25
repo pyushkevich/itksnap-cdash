@@ -20,104 +20,53 @@ SET(CURLROOT "E:/tk/libcurl/curl-7.56.1/builds")
 # Set SNAP test acceleration factor
 CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=1.0" PRODUCT itksnap)
 
-# Depending on the configuration, set the library paths for this machine
-# as well as some other settings
-IF(${IN_CONFIG} MATCHES vce64.*)
 
-  # This configuration is for VISUAL STUDIO EXPRESS 13, 64 bit mode
+# This configuration is for VISUAL STUDIO EXPRESS 15, 64 bit mode
 
-  # This compiler cannot handle old VTK versions
-  SETCOND(SKIP_BUILD ON PRODUCT itk BRANCH v4.2.1)
-  SETCOND(SKIP_BUILD ON PRODUCT vtk BRANCH v5.8.0)
-  
-  # These environment commands were generated using a script 
-  ENV_ADD(CommandPromptType "Cross")
-  ENV_ADD(DevEnvDir "C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/")
-  ENV_ADD(ExtensionSdkDir "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs")
-  ENV_ADD(Framework40Version "v4.0")
-  ENV_ADD(FrameworkDir "C:/Windows/Microsoft.NET/Framework/")
-  ENV_ADD(FrameworkDIR32 "C:/Windows/Microsoft.NET/Framework/")
-  ENV_ADD(FrameworkDIR64 "C:/Windows/Microsoft.NET/Framework64")
-  ENV_ADD(FrameworkVersion "v4.0.30319")
-  ENV_ADD(FrameworkVersion32 "v4.0.30319")
-  ENV_ADD(FrameworkVersion64 "v4.0.30319")
-  ENV_ADD(INCLUDE "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/INCLUDE;C:/Program Files (x86)/Windows Kits/8.1/include/shared;C:/Program Files (x86)/Windows Kits/8.1/include/um;C:/Program Files (x86)/Windows Kits/8.1/include/winrt;")
-  ENV_ADD(LIB "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/LIB/amd64;C:/Program Files (x86)/Windows Kits/8.1/lib/winv6.3/um/x64;")
-  ENV_ADD(LIBPATH "C:/Windows/Microsoft.NET/Framework/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/LIB/amd64;C:/Program Files (x86)/Windows Kits/8.1/References/CommonConfiguration/Neutral;C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs/Microsoft.VCLibs/12.0/References/CommonConfiguration/neutral;")
-  ENV_ADD(PATH "C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow;C:/Program Files (x86)/MSBuild/12.0/bin;C:/Program Files (x86)/MSBuild/12.0/bin;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/BIN/x86_amd64;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/BIN;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/Tools;C:/Windows/Microsoft.NET/Framework/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/VCPackages;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Team Tools/Performance Tools;C:/Program Files (x86)/Windows Kits/8.1/bin/x86;C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/x64/;c:/Users/paul/bin;.;C:/Program Files (x86)/Git/local/bin;C:/Program Files (x86)/Git/mingw/bin;C:/Program Files (x86)/Git/bin;c:/Windows/system32;c:/Windows;c:/Windows/System32/Wbem;c:/Windows/System32/WindowsPowerShell/v1.0/;c:/Program Files/Microsoft SQL Server/110/Tools/Binn/;c:/Program Files (x86)/Microsoft SDKs/TypeScript/1.0/;c:/Program Files/Microsoft SQL Server/120/Tools/Binn/")
-  ENV_ADD(Platform "x64")
-  ENV_ADD(VCINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/")
-  ENV_ADD(VisualStudioVersion "12.0")
-  ENV_ADD(VSINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/")
-  ENV_ADD(WindowsSdkDir "C:/Program Files (x86)/Windows Kits/8.1/")
-  ENV_ADD(WindowsSDK_ExecutablePath_x64 "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/x64/")
-  ENV_ADD(WindowsSDK_ExecutablePath_x86 "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/")
-    
-  # Directory shortcuts
-  SET(MYBIN "bin64")
-  SET(VCVER "vce13")
-  SET(VCBINDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin")
-  SET(VCBINDIR64 "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin/x86_amd64")
-  SET(SDKBINDIR "C:/Program Files (x86)/Windows Kits/8.1/bin/x86")
+# This compiler cannot handle old VTK versions
+SETCOND(SKIP_BUILD ON PRODUCT itk BRANCH v4.2.1)
+SETCOND(SKIP_BUILD ON PRODUCT vtk BRANCH v5.8.0)
 
-  # These cache entries are configuration specific. I ran cmake gui from the VC prompt with Nmake as the 
-  # build system to generate these
-  CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
-  CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
-  CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x64.exe")
+# These environment commands were generated using a script 
+ENV_ADD(CommandPromptType "Native")
+ENV_ADD(Framework40Version "v4.0")
+ENV_ADD(FrameworkDir "C:/Windows/Microsoft.NET/Framework64/")
+ENV_ADD(FrameworkDIR64 "C:/Windows/Microsoft.NET/Framework64")
+ENV_ADD(FrameworkVersion "v4.0.30319")
+ENV_ADD(FrameworkVersion64 "v4.0.30319")
+ENV_ADD(INCLUDE "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/INCLUDE;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ATLMFC/INCLUDE;C:/Program Files (x86)/Windows Kits/10/include/10.0.10240.0/ucrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.6.1/include/um;C:/Program Files (x86)/Windows Kits/8.1/include//shared;C:/Program Files (x86)/Windows Kits/8.1/include//um;C:/Program Files (x86)/Windows Kits/8.1/include//winrt;")
+ENV_ADD(LIB "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/LIB/amd64;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ATLMFC/LIB/amd64;C:/Program Files (x86)/Windows Kits/10/lib/10.0.10240.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.6.1/lib/um/x64;C:/Program Files (x86)/Windows Kits/8.1/lib/winv6.3/um/x64;")
+ENV_ADD(LIBPATH "C:/WINDOWS/Microsoft.NET/Framework64/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/LIB/amd64;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ATLMFC/LIB/amd64;C:/Program Files (x86)/Windows Kits/8.1/References/CommonConfiguration/Neutral;/Microsoft.VCLibs/14.0/References/CommonConfiguration/neutral;")
+ENV_ADD(PATH "C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow;C:/Program Files (x86)/MSBuild/14.0/bin/amd64;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/BIN/amd64;C:/WINDOWS/Microsoft.NET/Framework64/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/VCPackages;C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE;C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/Tools;C:/Program Files (x86)/HTML Help Workshop;C:/Program Files (x86)/Microsoft Visual Studio 14.0/Team Tools/Performance Tools/x64;C:/Program Files (x86)/Microsoft Visual Studio 14.0/Team Tools/Performance Tools;C:/Program Files (x86)/Windows Kits/8.1/bin/x64;C:/Program Files (x86)/Windows Kits/8.1/bin/x86;C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.6.1 Tools/x64/;C:/Program Files/Oculus/Support/oculus-runtime;C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem;C:/WINDOWS/System32/WindowsPowerShell/v1.0/;C:/Program Files/Git/cmd;C:/Program Files/Microsoft SQL Server/110/Tools/Binn/;C:/Program Files (x86)/Microsoft SDKs/TypeScript/1.0/;C:/Program Files/Microsoft SQL Server/120/Tools/Binn/;C:/Program Files/nodejs/;C:/Program Files/ITK-SNAP 3.6/bin;C:/Program Files/ITK-SNAP 3.8/bin;C:/Program Files/MATLAB/R2018aTrial/bin;C:/Program Files/MATLAB/R2018a/bin;C:/Program Files (x86)/Aperio/Common;C:/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/;C:/Users/pauly/AppData/Local/Continuum/miniconda2;C:/Users/pauly/AppData/Local/Continuum/miniconda2/Library/mingw-w64/bin;C:/Users/pauly/AppData/Local/Continuum/miniconda2/Library/usr/bin;C:/Users/pauly/AppData/Local/Continuum/miniconda2/Library/bin;C:/Users/pauly/AppData/Local/Continuum/miniconda2/Scripts;C:/Users/pauly/AppData/Local/Microsoft/WindowsApps")
+ENV_ADD(Platform "X64")
+ENV_ADD(VCINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/")
+ENV_ADD(VisualStudioVersion "12.0")
+ENV_ADD(VSINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/")
+ENV_ADD(WindowsSdkDir "C:/Program Files (x86)/Windows Kits/8.1/")
+ENV_ADD(WindowsSDK_ExecutablePath_x64 "C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.6.1 Tools/x64/")
+ENV_ADD(WindowsSDK_ExecutablePath_x86 "C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.6.1 Tools/")
 
-  # Curl directory
-  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
-  SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
-  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a.lib" PRODUCT itksnap CONFIG .*rel.*)
-  CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a_debug.lib" PRODUCT itksnap CONFIG .*dbg.*)
-  CACHE_ADD("CURL_INCLUDE_DIR:PATH=${CURLDIR}/include" PRODUCT itksnap)
+# Directory shortcuts
+SET(MYBIN "bin64")
+SET(VCVER "vce15")
+SET(VCBINDIR "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin")
+SET(VCBINDIR64 "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/x86_amd64")
+SET(SDKBINDIR "C:/Program Files (x86)/Windows Kits/8.1/bin/x86")
 
-ELSEIF(${IN_CONFIG} MATCHES vce32.*)
+# These cache entries are configuration specific. I ran cmake gui from the VC prompt with Nmake as the 
+# build system to generate these
+CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
+CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
+CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x64.exe")
 
-  # This configuration is for VISUAL STUDIO EXPRESS 13, 64 bit mode
+# Curl directory
+SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
+SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
+CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a.lib" PRODUCT itksnap CONFIG .*rel.*)
+CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a_debug.lib" PRODUCT itksnap CONFIG .*dbg.*)
+CACHE_ADD("CURL_INCLUDE_DIR:PATH=${CURLDIR}/include" PRODUCT itksnap)
 
-  # This compiler cannot handle old VTK versions
-  SETCOND(SKIP_BUILD ON PRODUCT itk BRANCH v4.2.1)
-  SETCOND(SKIP_BUILD ON PRODUCT vtk BRANCH v5.8.0)
-  
-  # Generated by a script
-  ENV_ADD(DevEnvDir "C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/")
-  ENV_ADD(ExtensionSdkDir "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs")
-  ENV_ADD(Framework40Version "v4.0")
-  ENV_ADD(FrameworkDir "C:/Windows/Microsoft.NET/Framework/")
-  ENV_ADD(FrameworkDIR32 "C:/Windows/Microsoft.NET/Framework/")
-  ENV_ADD(FrameworkVersion "v4.0.30319")
-  ENV_ADD(FrameworkVersion32 "v4.0.30319")
-  ENV_ADD(INCLUDE "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/INCLUDE;C:/Program Files (x86)/Windows Kits/8.1/include/shared;C:/Program Files (x86)/Windows Kits/8.1/include/um;C:/Program Files (x86)/Windows Kits/8.1/include/winrt;")
-  ENV_ADD(LIB "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/LIB;C:/Program Files (x86)/Windows Kits/8.1/lib/winv6.3/um/x86;")
-  ENV_ADD(LIBPATH "C:/Windows/Microsoft.NET/Framework/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/LIB;C:/Program Files (x86)/Windows Kits/8.1/References/CommonConfiguration/Neutral;C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs/Microsoft.VCLibs/12.0/References/CommonConfiguration/neutral;")
-  ENV_ADD(PATH "C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow;C:/Program Files (x86)/MSBuild/12.0/bin;C:/Program Files (x86)/MSBuild/12.0/bin;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/BIN;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/Tools;C:/Windows/Microsoft.NET/Framework/v4.0.30319;C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/VCPackages;C:/Program Files (x86)/Microsoft Visual Studio 12.0/Team Tools/Performance Tools;C:/Program Files (x86)/Windows Kits/8.1/bin/x86;C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/;c:/Users/paul/bin;.;C:/Program Files (x86)/Git/local/bin;C:/Program Files (x86)/Git/mingw/bin;C:/Program Files (x86)/Git/bin;c:/Windows/system32;c:/Windows;c:/Windows/System32/Wbem;c:/Windows/System32/WindowsPowerShell/v1.0/;c:/Program Files/Microsoft SQL Server/110/Tools/Binn/;c:/Program Files (x86)/Microsoft SDKs/TypeScript/1.0/;c:/Program Files/Microsoft SQL Server/120/Tools/Binn/")
-  ENV_ADD(VCINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/")
-  ENV_ADD(VisualStudioVersion "12.0")
-  ENV_ADD(VSINSTALLDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/")
-  ENV_ADD(WindowsSdkDir "C:/Program Files (x86)/Windows Kits/8.1/")
-  ENV_ADD(WindowsSDK_ExecutablePath_x64 "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/x64/")
-  ENV_ADD(WindowsSDK_ExecutablePath_x86 "C:/Program Files (x86)/Microsoft SDKs/Windows/v8.1A/bin/NETFX 4.5.1 Tools/")
 
-  # Directory shortcuts
-  SET(MYBIN "bin32")
-  SET(VCVER "vce13")
-  SET(VCBINDIR "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin")
-  SET(VCBINDIR64 "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin/x86_amd64")
-  SET(SDKBINDIR "C:/Program Files (x86)/Windows Kits/8.1/bin/x86")
-
-  # These cache entries are configuration specific. I ran cmake gui from the VC prompt with Nmake as the 
-  # build system to generate these
-  CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR}/cl.exe")
-  CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR}/cl.exe")
-  CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x86.exe")
-
-ELSE(${IN_CONFIG} MATCHES vce64.*)
-  
-  MESSAGE(FATAL_ERROR "Unknown configuration ${IN_CONFIG}")
-
-ENDIF(${IN_CONFIG} MATCHES vce64.*)
 
 # Set the Generator
 SET(CTEST_CMAKE_GENERATOR "NMake Makefiles JOM")
@@ -150,6 +99,10 @@ ELSEIF(NEED_QT54)
 ELSEIF(NEED_QT56)
   SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
   SETCOND(QT5_PATH "E:/tk/Qt/5.6/msvc2013_64/lib/cmake" CONFIG vce64.*)
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
+ELSEIF(NEED_QT515)
+  SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
+  SETCOND(QT5_PATH "C:/Qt2021/5.15.2/msvc2015_64/lib/cmake" CONFIG vce64.*)
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
 ENDIF(NEED_QT4)
 

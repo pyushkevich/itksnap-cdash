@@ -4,13 +4,14 @@ IF(UNIX)
     "sh -c \"${GIT_BINARY} clone https://github.com/InsightSoftwareConsortium/ITK.git ${IN_PRODUCT} && cd ${IN_PRODUCT} && ${GIT_BINARY} checkout ${IN_BRANCH}\"")
 ELSEIF(WIN32)
   SET(PRODUCT_CHECKOUT_COMMAND 
-      "\"${GIT_BINARY}\" clone -b ${IN_BRANCH} https://itk.org/ITK.git ${IN_PRODUCT}")
+      "\"${GIT_BINARY}\" clone -b ${IN_BRANCH} https://github.com/InsightSoftwareConsortium/ITK.git ${IN_PRODUCT}")
 ENDIF(UNIX)
 
 SET(PRODUCT_EXTERNAL ON)
 
 CACHE_ADD("BUILD_TESTING:BOOL=FALSE")
 CACHE_ADD("BUILD_EXAMPLES:BOOL=FALSE")
+CACHE_ADD("Module_MorphologicalContourInterpolation:BOOL=TRUE" BRANCH "5.*")
 
 # For 64 bit windows, make offsets be 64 bit type
 IF(WIN32)
