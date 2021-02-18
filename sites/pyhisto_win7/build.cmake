@@ -18,7 +18,7 @@ SET(TKDIR "E:/tk")
 SET(CURLROOT "E:/tk/libcurl/curl-7.56.1/builds")
 
 # Set SNAP test acceleration factor
-CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=1.0" PRODUCT itksnap)
+CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=0.25" PRODUCT itksnap)
 
 
 # This configuration is for VISUAL STUDIO EXPRESS 15, 64 bit mode
@@ -57,11 +57,11 @@ SET(SDKBINDIR "C:/Program Files (x86)/Windows Kits/8.1/bin/x86")
 # build system to generate these
 CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
 CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
-CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc_express_2013/vcredist_x64.exe")
+CACHE_ADD("VCREDIST_EXE:FILEPATH=${TKDIR}/redist/msvc2015/vc_redist.x64.exe")
 
 # Curl directory
-SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
-SETCOND(CURLDIR "${CURLROOT}/libcurl-vc12-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
+SETCOND(CURLDIR "${CURLROOT}/libcurl-vc14-x64-release-static-ipv6-sspi-winssl" CONFIG .*rel.*)
+SETCOND(CURLDIR "${CURLROOT}/libcurl-vc14-x64-debug-static-ipv6-sspi-winssl" CONFIG .*dbg.*)
 CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a.lib" PRODUCT itksnap CONFIG .*rel.*)
 CACHE_ADD("CURL_LIBRARY:FILEPATH=${CURLDIR}/lib/libcurl_a_debug.lib" PRODUCT itksnap CONFIG .*dbg.*)
 CACHE_ADD("CURL_INCLUDE_DIR:PATH=${CURLDIR}/include" PRODUCT itksnap)
@@ -76,14 +76,14 @@ ENV_ADD(PATH "${TKDIR}/jom_1_1_2;$ENV{PATH}")
 
 # Add cache entries
 CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=${TKDIR}/jom_1_1_2/jom.exe")
-CACHE_ADD("MAKECOMMAND:STRING=jom.exe -i -j 12")
+CACHE_ADD("MAKECOMMAND:STRING=jom.exe -i -j 24")
 CACHE_ADD("BUILDNAME:STRING=Win7-${VCVER}-${IN_CONFIG}")
 CACHE_ADD("SITE:STRING=pyhisto")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release" CONFIG .*rel.*)
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Debug" CONFIG .*dbg.*)
 CACHE_ADD("SCP_PROGRAM:STRING=C:/Program Files/Git/usr/bin/scp.exe")
-CACHE_ADD("CMAKE_C_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /D_CRT_SECURE_NO_WARNINGS /wd4250")
-CACHE_ADD("CMAKE_CXX_FLAGS:STRING= /DWIN32 /D_WINDOWS /W3 /Zm1000 /EHsc /GR /D_CRT_SECURE_NO_WARNINGS /wd4250")
+CACHE_ADD("CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS /W3")
+CACHE_ADD("CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /W3 /GR /EHsc")
 CACHE_ADD("CMAKE_RC_COMPILER:FILEPATH=${SDKBINDIR}/RC.Exe")
 
 # Add product-specific cache entries
@@ -98,7 +98,7 @@ ELSEIF(NEED_QT54)
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
 ELSEIF(NEED_QT56)
   SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
-  SETCOND(QT5_PATH "E:/tk/Qt/5.6/msvc2013_64/lib/cmake" CONFIG vce64.*)
+  SETCOND(QT5_PATH "E:/tk/Qt/5.6/msvc2015_64/lib/cmake" CONFIG vce64.*)
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5_PATH}")
 ELSEIF(NEED_QT515)
   SETCOND(SKIP_BUILD ON  CONFIG vce32.*)
