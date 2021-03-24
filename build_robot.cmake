@@ -34,13 +34,14 @@ SET(EXTERNAL_PRODUCTS
   "itk v4.13.2"
   "itk v5.1.2"
   "vtk v6.3.0"
-  "vtk v9.0.1")
+  "vtk v8.2.0")
 
 SET(INTERNAL_PRODUCTS
   "itksnap seg4d_itk5"
   "itksnap master"
+  "greedy itk5"
   "greedy master"
-  "itksnap rel_3.6"
+  "c3d itk5"
   "c3d master")
 
 # ---------------------------------------
