@@ -42,32 +42,20 @@ CACHE_ADD("CMAKE_C_FLAGS:STRING=${CFLAGS}")
 CACHE_ADD("CMAKE_CXX_FLAGS:STRING=${CFLAGS}")
 
 # Tell C3D that the GUI should be built
-CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
+CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d" BRANCH "master")
+CACHE_ADD("BUILD_GUI:BOOLEAN=OFF" PRODUCT "c3d" BRANCH "itk5")
 
 # For VTK we enable python because it is useful to have on the cluster
 CACHE_ADD("VTK_WRAP_PYTHON:BOOL=OFF" PRODUCT "vtk")
 
 # We need this because this is a cross-compilation
-CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-i686" CONFIG "gcc32.*")
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-gcc64" CONFIG "gcc64.*")
-CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-icc64" CONFIG "icc64.*")
 
 # Add product-specific cache entries
-IF(NEED_FLTK)
-  SETCOND(FLTKDIR "${TKDIR}/fltk13/install_gcc64" CONFIG ".*64.*")
-  SETCOND(FLTKDIR "${TKDIR}/fltk13/install_gcc32" CONFIG ".*32.*")
-  CACHE_ADD("FLTK_BASE_LIBRARY:FILEPATH=${FLTKDIR}/lib/libfltk.a")
-ENDIF(NEED_FLTK)
-
 IF(NEED_QT4)
-  SETCOND(QT4DIR "/mnt/build/pyushkevich/Qt48" CONFIG ".*64rel")
-  SETCOND(QT4DIR "/mnt/build/pyushkevich/Qt48_Debug" CONFIG ".*64dbg")
-  SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
-  CACHE_ADD("QT_QMAKE_EXECUTABLE:FILEPATH=${QT4DIR}/bin/qmake")
+  SET(SKIP_BUILD ON)
 ELSEIF(NEED_QT56)
-  SETCOND(QT5DIR "/mnt/build/pyushkevich/Qt56" CONFIG ".*64rel*")
-  SETCOND(QT5DIR "/mnt/build/pyushkevich/Qt56_Debug" CONFIG ".*64dbg*")
-  SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
+  SETCOND(QT5DIR "/home/pyushkevich/tk/Qt2021/5.15.2/gcc_64")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ELSEIF(NEED_QT5)
