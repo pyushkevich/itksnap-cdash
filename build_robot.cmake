@@ -42,7 +42,8 @@ SET(INTERNAL_PRODUCTS
   "greedy itk5"
   "greedy master"
   "c3d itk5"
-  "c3d master")
+  "c3d master"
+  "cmrep master")
 
 # ---------------------------------------
 # Parse the parameter settings
