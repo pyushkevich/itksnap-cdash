@@ -40,6 +40,20 @@ CACHE_ADD("VTK_WRAP_PYTHON:BOOL=OFF" PRODUCT "vtk")
 # We need this because this is a cross-compilation
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-gcc64")
 
+# Cm-rep related external libraries
+CACHE_ADD("USE_TETGEN:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_IPOPT:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_NLOPT:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_MUMPS:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_EIGEN:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_INCLUDE_DIR:PATH=/home/pyushkevich/tk/ipopt/include/coin-or" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_LIBRARY:FILEPATH=/home/pyushkevich/tk/ipopt/lib/libipopt.so.3" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_METIS_LIBRARY:FILEPATH=/usr/lib64/libmetis.so" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_GFORTRAN_LIB:FILEPATH=/usr/lib64/libgfortran.so.3" PRODUCT "cmrep")
+CACHE_ADD("NLOPT_INCLUDE_DIRS:PATH=/home/pyushkevich/tk/nlopt/install/include" PRODUCT "cmrep")
+CACHE_ADD("NLOPT_LIBRARIES:FILEPATH=/home/pyushkevich/tk/nlopt/install/lib64/libnlopt.a" PRODUCT "cmrep")
+CACHE_ADD("Eigen3_DIR:PATH=/home/pyushkevich/tk/eigen/install/share/eigen3/cmake" PRODUCT "cmrep")
+
 # Add product-specific cache entries
 IF(NEED_QT4)
   SET(SKIP_BUILD ON)
