@@ -41,7 +41,6 @@ SET(INTERNAL_PRODUCTS
   "itksnap master"
   "greedy itk5"
   "greedy master"
-  "c3d itk5"
   "c3d master"
   "cmrep master")
 

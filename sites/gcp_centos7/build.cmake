@@ -54,6 +54,9 @@ CACHE_ADD("NLOPT_INCLUDE_DIRS:PATH=/home/pyushkevich/tk/nlopt/install/include" P
 CACHE_ADD("NLOPT_LIBRARIES:FILEPATH=/home/pyushkevich/tk/nlopt/install/lib64/libnlopt.a" PRODUCT "cmrep")
 CACHE_ADD("Eigen3_DIR:PATH=/home/pyushkevich/tk/eigen/install/share/eigen3/cmake" PRODUCT "cmrep")
 
+# Related to SCP
+CACHE_ADD("SCP_ARGUMENTS:STRING=")
+
 # Add product-specific cache entries
 IF(NEED_QT4)
   SET(SKIP_BUILD ON)
