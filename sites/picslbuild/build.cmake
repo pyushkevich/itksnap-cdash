@@ -13,13 +13,13 @@ SET(TKDIR "/mnt/build/pauly")
 
 # ICC and GCC directories
 SET(ICCDIR "/mnt/build/pauly/icc/intel")
-SET(GCCDIR "/opt/rh/devtoolset-2/root/usr/")
+SET(GCCDIR "/opt/rh/devtoolset-7/root/usr")
 
 # This is an upload site
 SET(DO_UPLOAD TRUE)
 
 # Set build flags
-SETCOND(CFLAGS "-fno-strict-aliasing -fPIC" CONFIG "gcc64.*")
+SETCOND(CFLAGS "-fno-strict-aliasing -fPIC -std=c++11" CONFIG "gcc64.*")
 SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG "gcc32.*")
 SETCOND(CFLAGS "-wd1224 -wd1268 -wd858" CONFIG icc64rel)
 
@@ -69,6 +69,10 @@ ELSEIF(NEED_QT56)
   SETCOND(QT5DIR "/mnt/build/pauly/Qt56" CONFIG ".*64rel*")
   SETCOND(QT5DIR "/mnt/build/pauly/Qt56_Debug" CONFIG ".*64dbg*")
   SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
+  ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
+ELSEIF(NEED_QT515)
+  SETCOND(QT5DIR "/mnt/build/pauly/Qt2021/5.15.2/gcc_64")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ELSEIF(NEED_QT5)
