@@ -50,4 +50,4 @@ CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${CONFIG_BASE}" BRANCH "rel_3
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${CONFIG_BASE}" BRANCH "rel_3.4")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "rel_3.6")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "master")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "seg4d_itk5")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v8.2.0/${CONFIG_BASE}" BRANCH "seg4d_itk5")

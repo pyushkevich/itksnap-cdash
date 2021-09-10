@@ -39,9 +39,10 @@ SET(EXTERNAL_PRODUCTS
 SET(INTERNAL_PRODUCTS
   "itksnap seg4d_itk5"
   "itksnap master"
+  "greedy itk5"
   "greedy master"
-  "itksnap rel_3.6"
-  "c3d master")
+  "c3d master"
+  "cmrep master")
 
 # ---------------------------------------
 # Parse the parameter settings

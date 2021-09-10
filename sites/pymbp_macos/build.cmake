@@ -33,6 +33,14 @@ CACHE_ADD("ARCH:STRING=${ARCH}")
 CACHE_ADD("CMAKE_OSX_ARCHITECTURES:STRING=${ARCH}")
 CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
 
+# Entries for CMREP
+CACHE_ADD("USE_EIGEN:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_LAPACK:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("Eigen3_DIR:PATH=/Users/pauly/tk/eigen/install/share/eigen3/cmake" PRODUCT "cmrep")
+CACHE_ADD("LAPACK_LIB:FILEPATH=/usr/lib/liblapack.dylib" PRODUCT "cmrep")
+CACHE_ADD("BLAS_LIB:FILEPATH=/usr/lib/libblas.dylib" PRODUCT "cmrep")
+CACHE_ADD("G2C_LIB:FILEPATH=/usr/local/Cellar/gcc/9.3.0/lib/gcc/9/libgfortran.a" PRODUCT "cmrep")
+
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/pauly/tk")
 
