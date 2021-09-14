@@ -7,20 +7,28 @@ function usage()
   echo "  build.sh [options] site_name"
   echo "options:"
   echo "  -e              Perform experimental build, not nightly"
+  echo "  -c              Perform continuous build, not nightly"
+  echo "  -f              Perform build/test on continuous build even if no update"
   echo "  -p reg_exp      Build products/branches matching regular expression"
   echo "  -x              Do not build external products (ITK, VTK)"
+  echo "  -K              Force clean build (delete build directories)"
 }
 
 # Which model to build
 MODEL=Nightly
 PRODUCT_MASK=
 SKIP_EXTERNAL=
+FORCE_CLEAN=
+FORCE_CONTINUOUS=
 
 # Parse options
-while getopts ":ep:hx" opt; do
+while getopts ":ecfKp:hx" opt; do
   case $opt in
     e)
       MODEL=Experimental
+      ;;
+    c)
+      MODEL=Continuous
       ;;
     p)
       PRODUCT_MASK="$OPTARG"
@@ -31,6 +39,12 @@ while getopts ":ep:hx" opt; do
       ;;
     x)
       SKIP_EXTERNAL=TRUE
+      ;;
+    f)
+      FORCE_CONTINUOUS=TRUE
+      ;;
+    K)
+      FORCE_CLEAN=TRUE
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -79,6 +93,8 @@ fi
 $CMAKE_BINARY_PATH/ctest -V \
   -D PRODUCT_MASK:STRING="${PRODUCT_MASK}" \
   -D SKIP_EXTERNAL:BOOL=${SKIP_EXTERNAL} \
+  -D FORCE_CLEAN:BOOL=${FORCE_CLEAN} \
+  -D FORCE_CONTINUOUS:BOOL=${FORCE_CONTINUOUS} \
   -D GIT_BINARY:STRING="${GIT_BINARY}" \
   -D GIT_UID:STRING="${GIT_UID}" \
   -D CONFIG_LIST:STRING="${CONFIG_LIST}" \

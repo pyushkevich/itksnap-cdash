@@ -57,9 +57,9 @@ CHECK_SITE_VAR(CMAKE_BINARY_PATH)
 CHECK_SITE_VAR(CONFIG_LIST)
 
 # Make sure model is valid
-IF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Experimental"))
-  MESSAGE(FATAL_ERROR "Unknown model ${IN_GLOBAL_MODEL}, should be Nightly or Experimental")
-ENDIF(NOT (${IN_GLOBAL_MODEL} MATCHES "Nightly" OR ${IN_GLOBAL_MODEL} MATCHES "Experimental"))
+IF(NOT ${IN_GLOBAL_MODEL} MATCHES "Nightly|Experimental|Continuous")
+  MESSAGE(FATAL_ERROR "Unknown model ${IN_GLOBAL_MODEL}")
+ENDIF()
 
 # Check the existance of the site-specific cache/env script
 SET(SITE_BUILD_SCRIPT ${CTEST_SCRIPT_DIRECTORY}/sites/${IN_SITE}/build.cmake)
@@ -174,10 +174,10 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
     SET(CTEST_TEST_TIMEOUT 300)
 
     # Clear the binary directory for nightly builds
-    IF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
+    IF((${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL) OR FORCE_CLEAN)
       CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
       MESSAGE("Emptied the binary directory ***EMPTY***")
-    ENDIF(${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL)
+    ENDIF()
 
     # Configure for GIT
     set(CTEST_UPDATE_TYPE "git")
@@ -203,7 +203,12 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
     ctest_update(RETURN_VALUE UPDATE_COUNT)
     MESSAGE("UPDATE resulted in ${UPDATE_COUNT} updated files")
 
-
+    # For continuous builds, if there are no updates, we don't keep trying to build
+    IF(${UPDATE_COUNT} EQUAL 0 AND ${IN_MODEL} MATCHES "Continuous")
+      IF(NOT FORCE_CONTINUOUS)
+        RETURN()
+      ENDIF()
+    ENDIF()
 
     # Different rules for own and external products
     IF(PRODUCT_EXTERNAL)
@@ -239,10 +244,10 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_CONFIG IN_MODEL)
         if(IN_GLOBAL_MODEL MATCHES "Nightly")
           MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_nightly ***")
           ctest_build(TARGET ${IN_PRODUCT}_upload_nightly APPEND)
-        else(IN_GLOBAL_MODEL MATCHES "Nightly")
+        elseif(IN_GLOBAL_MODEL MATCHES "Experimental")
           MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
           ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
-        endif(IN_GLOBAL_MODEL MATCHES "Nightly")
+        endif()
         
       endif(DO_UPLOAD)
 

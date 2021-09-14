@@ -65,6 +65,10 @@ IF(NEED_QT54)
 ENDIF(NEED_QT54)
   
 IF(NEED_QT56)
-  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.12.6/clang_64/lib/cmake")
+  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.15.2/clang_64/lib/cmake")
+ENDIF(NEED_QT56)
+  
+IF(NEED_QT515)
+  CACHE_ADD("CMAKE_PREFIX_PATH:STRING=/Users/pauly/Qt/5.15.2/clang_64/lib/cmake")
 ENDIF(NEED_QT56)
   
