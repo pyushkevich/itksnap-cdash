@@ -18,6 +18,11 @@ SET(GCCDIR "/opt/rh/devtoolset-7/root/usr")
 # This is an upload site
 SET(DO_UPLOAD TRUE)
 
+# Skip debug builds if continuous (to save on space/time)
+IF(MODEL STREQUAL "Continuous")
+  SETCOND(SKIP_BUILD CONFIG ".*dbg")
+ENDIF()
+
 # Set build flags
 SETCOND(CFLAGS "-fno-strict-aliasing -fPIC -std=c++11" CONFIG "gcc64.*")
 SETCOND(CFLAGS "-m32 -fno-strict-aliasing -fPIC" CONFIG "gcc32.*")
@@ -74,6 +79,12 @@ ELSEIF(NEED_QT56)
 ELSEIF(NEED_QT515)
   SETCOND(QT5DIR "/mnt/build/pauly/Qt2021/5.15.2/gcc_64")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
+
+  # Miniconda clashes with CMAKE_PREFIX_PATH unfortunately
+  CACHE_ADD("Qt5Widgets_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Widgets")
+  CACHE_ADD("Qt5Gui_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Gui")
+  CACHE_ADD("Qt5Sql_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Sql")
+  CACHE_ADD("Qt5Core_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Core")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ELSEIF(NEED_QT5)
   SET(SKIP_BUILD ON)
