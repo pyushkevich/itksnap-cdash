@@ -38,7 +38,6 @@ SET(EXTERNAL_PRODUCTS
 
 SET(INTERNAL_PRODUCTS
   "itksnap vtk_render"
-  "itksnap seg4d_itk5"
   "itksnap master"
   "greedy itk5"
   "greedy master"
