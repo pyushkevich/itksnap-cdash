@@ -10,6 +10,7 @@ function usage()
   echo "  -c              Perform continuous build, not nightly"
   echo "  -f              Perform build/test on continuous build even if no update"
   echo "  -p reg_exp      Build products/branches matching regular expression"
+  echo "  -C string       Build specific config or config list"
   echo "  -x              Do not build external products (ITK, VTK)"
   echo "  -K              Force clean build (delete build directories)"
 }
@@ -22,7 +23,7 @@ FORCE_CLEAN=
 FORCE_CONTINUOUS=
 
 # Parse options
-while getopts ":ecfKp:hx" opt; do
+while getopts ":ecfKp:C:hx" opt; do
   case $opt in
     e)
       MODEL=Experimental
@@ -32,6 +33,9 @@ while getopts ":ecfKp:hx" opt; do
       ;;
     p)
       PRODUCT_MASK="$OPTARG"
+      ;;
+    C)
+      CUSTOM_CONFIG_LIST="$OPTARG"
       ;;
     h)
       usage
@@ -76,6 +80,11 @@ echo "Building model $MODEL at site ${1?}"
 
 # Read the global script
 source $SITESCRIPT
+
+# Override config list
+if [[ $CUSTOM_CONFIG_LIST ]]; then
+  CONFIG_LIST="$CUSTOM_CONFIG_LIST"
+fi
 
 # Update the CDASH repository automatically
 pushd cdash

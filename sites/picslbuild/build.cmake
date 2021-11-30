@@ -20,7 +20,8 @@ SET(DO_UPLOAD TRUE)
 
 # Skip debug builds if continuous (to save on space/time)
 IF(MODEL STREQUAL "Continuous")
-  SETCOND(SKIP_BUILD CONFIG ".*dbg")
+  SETCOND(SKIP_BUILD CONFIG ".*dbg.*")
+  SETCOND(SKIP_BUILD CONFIG ".*osmesa.*")
 ENDIF()
 
 # Set build flags
@@ -53,10 +54,38 @@ CACHE_ADD("BUILD_GUI:BOOLEAN=ON" PRODUCT "c3d")
 # For VTK we enable python because it is useful to have on the cluster
 CACHE_ADD("VTK_WRAP_PYTHON:BOOL=OFF" PRODUCT "vtk")
 
+# For VTK, set osmesa path
+IF(${CONFIG_EXT} MATCHES ".*osmesa.*")
+  CACHE_ADD("OSMESA_LIBRARY:FILEPATH=/mnt/build/pauly/mesa-21.3/install/lib64/libOSMesa.so" PRODUCT "vtk")
+  CACHE_ADD("OSMESA_INCLUDE_DIR:PATH=/mnt/build/pauly/mesa-21.3/install/include" PRODUCT "vtk")
+  CACHE_ADD("OPENGL_INCLUDE_DIR:PATH=/mnt/build/pauly/mesa-21.3/install/include" PRODUCT "vtk")
+ENDIF()
+
 # We need this because this is a cross-compilation
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-i686" CONFIG "gcc32.*")
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-gcc64" CONFIG "gcc64.*")
 CACHE_ADD("CPACK_SYSTEM_NAME:STRING=Linux-icc64" CONFIG "icc64.*")
+
+# Cm-rep related external libraries
+CACHE_ADD("USE_TETGEN:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_IPOPT:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_NLOPT:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_MUMPS:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_EIGEN:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("USE_HSL:BOOL=ON" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_INCLUDE_DIR:PATH=/mnt/build/pauly/ipopt/install_gcc64_shareable/include/coin" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_LIBRARY:FILEPATH=/mnt/build/pauly/ipopt/install_gcc64_shareable/lib/libipopt.so" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_BLAS_LIB:FILEPATH=/usr/lib64/libblas.so.3" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_LAPACK_LIB:FILEPATH=/usr/lib64/liblapack.so.3" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_METIS_LIBRARY:FILEPATH=/mnt/build/pauly/ipopt/install_gcc64_shareable/lib/libcoinmetis.so" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_MUMPS_LIBRARY:FILEPATH=/mnt/build/pauly/ipopt/install_gcc64_shareable/lib/libcoinmumps.so" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_GFORTRAN_LIB:FILEPATH=/usr/lib64/libgfortran.so.3" PRODUCT "cmrep")
+CACHE_ADD("IPOPT_HSL_LIBRARY:FILEPATH=/mnt/build/pauly/ipopt/install_gcc64_shareable/lib/libcoinhsl.so" PRODUCT "cmrep")
+CACHE_ADD("NLOPT_INCLUDE_DIRS:PATH=/mnt/build/pauly/nlopt/nlopt-install/include" PRODUCT "cmrep")
+CACHE_ADD("NLOPT_LIBRARIES:FILEPATH=/mnt/build/pauly/nlopt/nlopt-install/lib64/libnlopt.so" PRODUCT "cmrep")
+CACHE_ADD("Eigen3_DIR:PATH=/mnt/build/pauly/Eigen/install-3.4.0/share/eigen3/cmake" PRODUCT "cmrep")
+CACHE_ADD("TETGEN_INCLUDE_DIR:PATH=/mnt/build/pauly/tetgen/tetgen1.5.1" PRODUCT "cmrep")
+CACHE_ADD("TETGEN_LIBRARY:FILEPATH=/mnt/build/pauly/tetgen/tetgen1.5.1/libtet.a" PRODUCT "cmrep")
 
 # Add product-specific cache entries
 IF(NEED_FLTK)

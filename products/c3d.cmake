@@ -7,7 +7,7 @@ CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.1.2/${IN_CONFIG}")
 # SPECIFY which products we need
 SETCOND(NEED_QT56 ON BRANCH "master")
 
-# Skip special qt4 builds
-IF(${CONFIG_EXT} MATCHES ".*qt4.*")
+# Skip special config extensions
+IF((${CONFIG_EXT} MATCHES ".*qt4.*") OR (${CONFIG_EXT} MATCHES ".*osmesa.*"))
   SET(SKIP_BUILD ON)
-ENDIF(${CONFIG_EXT} MATCHES ".*qt4.*")
+ENDIF()

@@ -39,6 +39,13 @@ ELSE(${CONFIG_EXT} MATCHES ".*qt4.*")
 
 ENDIF(${CONFIG_EXT} MATCHES ".*qt4.*")
 
+# OSMESA builds enabled only for some branches
+IF(${CONFIG_EXT} MATCHES ".*osmesa.*")
+  SETCOND(SKIP_BUILD ON BRANCH "master")
+  SETCOND(SKIP_BUILD OFF BRANCH "vtk_render")
+ENDIF()
+
+
 # SET UP PRODUCT-SPECIFIC CACHE ENTRIES
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.2.1/${CONFIG_BASE}" BRANCH "rel_2.4")
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.5.2/${CONFIG_BASE}" BRANCH "rel_3.2")
@@ -54,4 +61,6 @@ CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${CONFIG_BASE}" BRANCH "rel_3
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "rel_3.6")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "master")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "seg4d_itk5")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v8.2.0/${CONFIG_BASE}" BRANCH "vtk_render")
+
+# VTK config matches ITKSNAP config
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v8.2.0/${IN_CONFIG}" BRANCH "vtk_render")

@@ -8,7 +8,7 @@ CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "maste
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v8.2.0/${CONFIG_BASE}" BRANCH "itk5")
 CACHE_ADD("GREEDY_BUILD_STACK_REG:BOOLEAN=ON")
 
-# Skip special qt4 builds
-IF(${CONFIG_EXT} MATCHES ".*qt4.*")
+# Skip special config extensions
+IF((${CONFIG_EXT} MATCHES ".*qt4.*") OR (${CONFIG_EXT} MATCHES ".*osmesa.*"))
   SET(SKIP_BUILD ON)
-ENDIF(${CONFIG_EXT} MATCHES ".*qt4.*")
+ENDIF()
