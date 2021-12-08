@@ -56,9 +56,15 @@ CACHE_ADD("VTK_WRAP_PYTHON:BOOL=OFF" PRODUCT "vtk")
 
 # For VTK, set osmesa path
 IF(${CONFIG_EXT} MATCHES ".*osmesa.*")
-  CACHE_ADD("OSMESA_LIBRARY:FILEPATH=/mnt/build/pauly/mesa-21.3/install/lib64/libOSMesa.so" PRODUCT "vtk")
-  CACHE_ADD("OSMESA_INCLUDE_DIR:PATH=/mnt/build/pauly/mesa-21.3/install/include" PRODUCT "vtk")
-  CACHE_ADD("OPENGL_INCLUDE_DIR:PATH=/mnt/build/pauly/mesa-21.3/install/include" PRODUCT "vtk")
+  SET(MESADIR "/mnt/build/pauly/mesa-21.3/install")
+
+  # Mesa needs to be added to LD_LIBRARY_PATH so that packaging includes the shared libs
+  ENV_ADD(LD_LIBRARY_PATH "${MESADIR}/lib64:$ENV{LD_LIBRARY_PATH}")
+
+  # Add cache entries for VTk
+  CACHE_ADD("OSMESA_LIBRARY:FILEPATH=${MESADIR}/lib64/libOSMesa.so" PRODUCT "vtk")
+  CACHE_ADD("OSMESA_INCLUDE_DIR:PATH=${MESADIR}/include" PRODUCT "vtk")
+  CACHE_ADD("OPENGL_INCLUDE_DIR:PATH=${MESADIR}/include" PRODUCT "vtk")
 ENDIF()
 
 # We need this because this is a cross-compilation
