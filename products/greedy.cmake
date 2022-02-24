@@ -2,10 +2,8 @@ SET(PRODUCT_CHECKOUT_COMMAND
   "${GIT_BINARY} clone -b ${IN_BRANCH} https://github.com/pyushkevich/greedy.git ${IN_PRODUCT}")
 
 # SET UP PRODUCT-SPECIFIC CACHE ENTRIES
-CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.13.2/${IN_CONFIG}" BRANCH "master")
-CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.1.2/${IN_CONFIG}" BRANCH "itk5")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "master")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v8.2.0/${CONFIG_BASE}" BRANCH "itk5")
+CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.2.1/${IN_CONFIG}" BRANCH "master")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v9.1.0/${CONFIG_BASE}" BRANCH "master")
 CACHE_ADD("GREEDY_BUILD_STACK_REG:BOOLEAN=ON")
 
 # Skip special config extensions
