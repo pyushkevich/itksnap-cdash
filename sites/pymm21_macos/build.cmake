@@ -9,12 +9,15 @@
 # may need to be set on some platforms and configurations
 
 # This site uploads all of its builds
-SET(DO_UPLOAD ON)
+SETCOND(DO_UPLOAD ON CONFIG ".*rel")
 
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
 SETCOND(ARCH "arm64" CONFIG "^xc64...$")
 SETCOND(ARCH "x86_64" CONFIG "^xc64...-x86_64$")
+
+# Build X86 for older MacOS not to annoy people
+CACHE_ADD("CMAKE_OSX_DEPLOYMENT_TARGET:STRING=11.0" CONFIG "^xc64...-x86_64$")
 
 # Skip older versions that won't compile on M1
 SETCOND(SKIP_BUILD ON PRODUCT "itk" BRANCH "v4.*")
