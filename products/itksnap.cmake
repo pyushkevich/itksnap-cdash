@@ -40,7 +40,6 @@ ENDIF(${CONFIG_EXT} MATCHES ".*qt4.*")
 # OSMESA builds enabled only for some branches
 IF(${CONFIG_EXT} MATCHES ".*osmesa.*")
   SETCOND(SKIP_BUILD ON BRANCH "master")
-  SETCOND(SKIP_BUILD ON BRANCH "vtk9qt6")
   CACHE_ADD("SNAP_USE_OSMESA:BOOL=TRUE")
 ENDIF()
 

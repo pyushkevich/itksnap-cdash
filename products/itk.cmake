@@ -25,3 +25,9 @@ MESSAGE(STATUS "CONFIG_EXT=${CONFIG_EXT}")
 IF((${CONFIG_EXT} MATCHES ".*qt4.*") OR (${CONFIG_EXT} MATCHES ".*osmesa.*"))
   SET(SKIP_BUILD ON)
 ENDIF()
+
+# Set max/min GCC version
+IF(${IN_BRANCH} MATCHES "4.*")
+  SET(GCC_MAX "7")
+ENDIF()
+
