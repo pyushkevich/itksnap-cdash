@@ -4,6 +4,7 @@ set PRODUCT_MASK=
 set SKIP_EXTERNAL=
 set FORCE_CLEAN=
 set FORCE_CONTINUOUS=
+set SKIP_TESTING=
 
 @rem set PATH="%ProgramFiles(x86)%/CMake 2.8/bin;%PATH%"
 @rem set PATH="%ProgramFiles(x86)%/Git/bin;%PATH%"
@@ -44,6 +45,7 @@ IF "%1"=="-h" (
   echo "  -p reg_exp      Build products/branches matching regular expression"
   echo "  -x              Do not build external products (ITK, VTK)"
   echo "  -K              Force clean build (delete build directories)"
+  echo "  -T              Skip the test step (only configure/build/package)"
   SHIFT
   GOTO :end
   GOTO :loop
@@ -63,6 +65,12 @@ IF "%1"=="-f" (
 
 IF "%1"=="-K" (
   set FORCE_CLEAN=TRUE
+  SHIFT
+  GOTO :loop
+)
+
+IF "%1"=="-K" (
+  set SKIP_TESTING=TRUE
   SHIFT
   GOTO :loop
 )
@@ -97,6 +105,7 @@ popd
   -D PRODUCT_MASK:STRING=%PRODUCT_MASK% ^
   -D SKIP_EXTERNAL:BOOL=%SKIP_EXTERNAL% ^
   -D FORCE_CLEAN:BOOL=%FORCE_CLEAN% ^
+  -D SKIP_TESTING:BOOL=%SKIP_TESTING% ^
   -D FORCE_CONTINUOUS:BOOL=%FORCE_CONTINUOUS% ^
   -D GIT_BINARY:STRING="%GIT_BINARY%" ^
   -D GIT_UID:STRING="%GIT_UID%" ^
