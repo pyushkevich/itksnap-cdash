@@ -38,7 +38,6 @@ SET(EXTERNAL_PRODUCTS
   )
 
 SET(INTERNAL_PRODUCTS
-  "itksnap vtk9qt6"
   "itksnap master"
   "greedy master"
   "c3d master"
