@@ -22,8 +22,6 @@ CACHE_ADD("CMAKE_OSX_DEPLOYMENT_TARGET:STRING=11.0" CONFIG "^xc64...-x86_64$")
 # Skip older versions that won't compile on M1
 SETCOND(SKIP_BUILD ON PRODUCT "itk" BRANCH "v4.*")
 SETCOND(SKIP_BUILD ON PRODUCT "vtk" BRANCH "v6.*")
-SETCOND(SKIP_BUILD ON PRODUCT "itksnap" BRANCH "master")
-
 
 ENV_ADD(MAKEFLAGS "-j 32")
 
@@ -49,3 +47,6 @@ SET(TKDIR "/Users/pauly/tk")
 IF(NEED_QT6)
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=/Users/pauly/Qt/6.2.2/macos/lib/cmake")
 ENDIF()
+
+# Set up for CMREP
+CACHE_ADD("USE_EIGEN:BOOL=TRUE" PRODUCT "cmrep")

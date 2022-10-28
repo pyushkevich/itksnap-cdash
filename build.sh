@@ -13,6 +13,7 @@ function usage()
   echo "  -C string       Build specific config or config list"
   echo "  -x              Do not build external products (ITK, VTK)"
   echo "  -K              Force clean build (delete build directories)"
+  echo "  -T              Skip the test step (only configure/build/package)"
 }
 
 # Which model to build
@@ -21,9 +22,10 @@ PRODUCT_MASK=
 SKIP_EXTERNAL=
 FORCE_CLEAN=
 FORCE_CONTINUOUS=
+SKIP_TESTING=
 
 # Parse options
-while getopts ":ecfKp:C:hx" opt; do
+while getopts ":ecfKTp:C:hx" opt; do
   case $opt in
     e)
       MODEL=Experimental
@@ -49,6 +51,9 @@ while getopts ":ecfKp:C:hx" opt; do
       ;;
     K)
       FORCE_CLEAN=TRUE
+      ;;
+    T)
+      SKIP_TESTING=TRUE
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -103,6 +108,7 @@ $CMAKE_BINARY_PATH/ctest -V \
   -D PRODUCT_MASK:STRING="${PRODUCT_MASK}" \
   -D SKIP_EXTERNAL:BOOL=${SKIP_EXTERNAL} \
   -D FORCE_CLEAN:BOOL=${FORCE_CLEAN} \
+  -D SKIP_TESTING:BOOL=${SKIP_TESTING} \
   -D FORCE_CONTINUOUS:BOOL=${FORCE_CONTINUOUS} \
   -D GIT_BINARY:STRING="${GIT_BINARY}" \
   -D GIT_UID:STRING="${GIT_UID}" \
