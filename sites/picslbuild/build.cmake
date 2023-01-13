@@ -13,7 +13,7 @@ SET(TKDIR "/mnt/build/pauly")
 
 # ICC and GCC directories
 SET(ICCDIR "/mnt/build/pauly/icc/intel")
-SET(GCCDIR "/opt/rh/devtoolset-7/root/usr")
+SET(GCCDIR "/opt/rh/devtoolset-9/root/usr")
 
 # This is an upload site
 SET(DO_UPLOAD TRUE)
@@ -111,16 +111,16 @@ ELSEIF(NEED_QT56)
   SETCOND(SKIP_BUILD ON CONFIG ".*32.*")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
   ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
-ELSEIF(NEED_QT515)
-  SETCOND(QT5DIR "/mnt/build/pauly/Qt2021/5.15.2/gcc_64")
-  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT5DIR}/lib/cmake")
+ELSEIF(NEED_QT6)
+  SETCOND(QT6DIR "/mnt/build/pauly/Qt2021/6.2.2/gcc_64")
+  CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT6DIR}/lib/cmake")
 
   # Miniconda clashes with CMAKE_PREFIX_PATH unfortunately
-  CACHE_ADD("Qt5Widgets_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Widgets")
-  CACHE_ADD("Qt5Gui_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Gui")
-  CACHE_ADD("Qt5Sql_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Sql")
-  CACHE_ADD("Qt5Core_DIR:PATH=${QT5DIR}/lib/cmake/Qt5Core")
-  ENV_ADD(LD_LIBRARY_PATH "${QT5DIR}/lib:$ENV{LD_LIBRARY_PATH}")
+  CACHE_ADD("Qt6Widgets_DIR:PATH=${QT6DIR}/lib/cmake/Qt6Widgets")
+  CACHE_ADD("Qt6Gui_DIR:PATH=${QT6DIR}/lib/cmake/Qt6Gui")
+  CACHE_ADD("Qt6Sql_DIR:PATH=${QT6DIR}/lib/cmake/Qt6Sql")
+  CACHE_ADD("Qt6Core_DIR:PATH=${QT6DIR}/lib/cmake/Qt6Core")
+  ENV_ADD(LD_LIBRARY_PATH "${QT6DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 ELSEIF(NEED_QT5)
   SET(SKIP_BUILD ON)
 ENDIF()
