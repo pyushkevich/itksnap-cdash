@@ -38,7 +38,6 @@ SET(EXTERNAL_PRODUCTS
   )
 
 SET(INTERNAL_PRODUCTS
-  "itksnap vtk9qt6"
   "itksnap master"
   "greedy master"
   "c3d master"
@@ -139,7 +138,7 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
     SET(CTEST_SITE ${IN_SITE})
 
     # Set the build name 
-    SET(CTEST_BUILD_NAME "${CMAKE_SYSTEM}-${IN_CONFIG}")
+    SET(CTEST_BUILD_NAME "${CMAKE_SYSTEM}-${IN_BRANCH}-${IN_CONFIG}")
 
     # Include the product-specific scripts. These scripts must set the following
     # variables:
@@ -240,25 +239,34 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
 
       ELSE(PRODUCT_EXTERNAL)
 
+        SET(build_success 0)
         MESSAGE("Updating git submodules")
         execute_process(
           COMMAND "${CTEST_UPDATE_COMMAND}" submodule update --init
           WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}")
 
         MESSAGE("Running ctest_configure")
-        ctest_configure()
+        ctest_configure(RETURN_VALUE configure_return)
 
         MESSAGE("Running ctest_build")
-        ctest_build()
+        IF(${configure_return} EQUAL 0)
+          ctest_build(RETURN_VALUE build_return NUMBER_ERRORS build_errors)
 
-        MESSAGE("Running ctest_test")
-        ctest_test()
+          IF(${build_return} EQUAL 0 AND ${build_errors} EQUAL 0)
+            SET(build_success 1)
+            IF(NOT SKIP_TESTING)
+              MESSAGE("Running ctest_test")
+              ctest_test()
+            ENDIF()
+          ENDIF()
+          
+        ENDIF()
 
         MESSAGE("Running ctest_submit")
         ctest_submit()
 
         # For nightly builds that are uploaders
-        if(DO_UPLOAD)
+        if(DO_UPLOAD AND ${build_success} EQUAL 1)
           MESSAGE("*** BUILDING TARGET package ***")
           ctest_build(TARGET package APPEND)
 
@@ -270,7 +278,7 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
             ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
           endif()
           
-        endif(DO_UPLOAD)
+        endif()
 
       ENDIF(PRODUCT_EXTERNAL)
 
