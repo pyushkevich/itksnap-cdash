@@ -39,6 +39,7 @@ CACHE_ADD("BUILD_SHARED_LIBS:BOOL=TRUE" PRODUCT "itksnap" CONFIG "xc64dbg")
 
 # Support for code signing
 CACHE_ADD("SNAP_MACOSX_CODESIGN_CERT:STRING=Developer ID Application: Paul Yushkevich (5A636Q488D)")
+CACHE_ADD("SNAP_MACOS_NOTARYTOOL_PROFILE:STRING=AC_PASSWORD")
 
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/pauly/tk")

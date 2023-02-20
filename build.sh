@@ -105,6 +105,7 @@ fi
 
 # Execute the build script
 $CMAKE_BINARY_PATH/ctest -V \
+  --output-on-failure \
   -D PRODUCT_MASK:STRING="${PRODUCT_MASK}" \
   -D SKIP_EXTERNAL:BOOL=${SKIP_EXTERNAL} \
   -D FORCE_CLEAN:BOOL=${FORCE_CLEAN} \
