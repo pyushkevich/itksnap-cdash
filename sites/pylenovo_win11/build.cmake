@@ -16,6 +16,7 @@ SET(TKDIR "${HOME}/tk")
 
 # Where all the curl libraries are built
 # SET(CURLROOT "E:/tk/libcurl/curl-7.56.1/builds")
+CACHE_ADD("SCP_ARGUMENTS:STRING=-q")
 
 # Set SNAP test acceleration factor
 CACHE_ADD("SNAP_GUI_TEST_ACCEL:STRING=1.0" PRODUCT itksnap)
