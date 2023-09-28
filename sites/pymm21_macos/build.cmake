@@ -10,6 +10,7 @@
 
 # This site uploads all of its builds
 SETCOND(DO_UPLOAD ON CONFIG ".*rel")
+SETCOND(DO_NOTARIZE ON CONFIG ".*rel")
 
 # Depending on the configuration, set the library paths for this machine
 # as well as some other settings
@@ -37,9 +38,13 @@ CACHE_ADD("BUILD_GUI:BOOL=ON" PRODUCT "c3d")
 CACHE_ADD("BUILD_SHARED_LIBS:BOOL=TRUE" PRODUCT "vtk" CONFIG "xc64dbg")
 CACHE_ADD("BUILD_SHARED_LIBS:BOOL=TRUE" PRODUCT "itksnap" CONFIG "xc64dbg")
 
+# SCP arguments
+CACHE_ADD("SCP_ARGUMENTS:STRING=-q")
+
 # Support for code signing
 CACHE_ADD("SNAP_MACOSX_CODESIGN_CERT:STRING=Developer ID Application: Paul Yushkevich (5A636Q488D)")
-CACHE_ADD("SNAP_MACOS_NOTARYTOOL_PROFILE:STRING=AC_PASSWORD")
+CACHE_ADD("SNAP_MACOS_NOTARYTOOL_PROFILE:STRING=notarytool_2023")
+CACHE_ADD("SNAP_MACOS_NOTARYTOOL_KEYCHAIN:STRING=/Users/pauly/Library/Keychains/itksnap.keychain-db")
 
 # Library directory: path where all the libraries are build (this is only used internally)
 SET(TKDIR "/Users/pauly/tk")
