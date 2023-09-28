@@ -69,7 +69,7 @@ IF "%1"=="-K" (
   GOTO :loop
 )
 
-IF "%1"=="-K" (
+IF "%1"=="-T" (
   set SKIP_TESTING=TRUE
   SHIFT
   GOTO :loop
