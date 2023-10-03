@@ -248,33 +248,33 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
 
         MESSAGE("Running ctest_configure")
         ctest_configure(RETURN_VALUE configure_return)
+        ctest_submit(PARTS Update Notes Configure)
 
         MESSAGE("Running ctest_build")
         IF(${configure_return} EQUAL 0)
-          ctest_build(RETURN_VALUE build_return NUMBER_ERRORS build_errors)
+          ctest_build(APPEND RETURN_VALUE build_return NUMBER_ERRORS build_errors)
+          ctest_submit(PARTS Build)
 
           IF(${build_return} EQUAL 0 AND ${build_errors} EQUAL 0)
             SET(build_success 1)
             IF(NOT SKIP_TESTING)
               MESSAGE("Running ctest_test")
               ctest_test()
+              ctest_submit(PARTS Test)
             ENDIF()
           ENDIF()
         ENDIF()
-
-        MESSAGE("Running ctest_submit")
-        ctest_submit()
 
         # For nightly builds that are uploaders
         if(DO_UPLOAD AND ${build_success} EQUAL 1)
           MESSAGE("*** BUILDING TARGET package ***")
           ctest_build(TARGET package APPEND RETURN_VALUE package_return NUMBER_ERRORS package_errors)
-	  ctest_submit()
+          ctest_submit(PARTS Build)
 
           if(DO_NOTARIZE AND ${package_return} EQUAL 0 AND ${package_errors} EQUAL 0)
             MESSAGE("*** BUILDING TARGET notarize ***")
             ctest_build(TARGET notarize APPEND RETURN_VALUE package_return NUMBER_ERRORS package_errors)
-	    ctest_submit()
+            ctest_submit(PARTS Build)
           endif()
 
           if(${package_return} EQUAL 0 AND ${package_errors} EQUAL 0)
@@ -285,7 +285,7 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
               MESSAGE("*** BUILDING TARGET ${IN_PRODUCT}_upload_experimental ***")
               ctest_build(TARGET ${IN_PRODUCT}_upload_experimental APPEND)
             endif()
-	    ctest_submit()
+            ctest_submit(PARTS Build)
           endif()
         endif()
 
