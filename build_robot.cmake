@@ -184,7 +184,10 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
       SET(CTEST_TEST_TIMEOUT 300)
 
       # Clear the binary directory for nightly builds
-      IF((${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL) OR FORCE_CLEAN)
+      # IF((${IN_MODEL} MATCHES "Nightly" AND NOT PRODUCT_EXTERNAL) OR FORCE_CLEAN)
+
+      # Clear the binary directory if requested
+      IF(FORCE_CLEAN)
         CTEST_EMPTY_BINARY_DIRECTORY(${CTEST_BINARY_DIRECTORY})
         MESSAGE("Emptied the binary directory ***EMPTY***")
       ENDIF()
