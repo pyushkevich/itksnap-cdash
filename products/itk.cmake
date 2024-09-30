@@ -27,7 +27,7 @@ IF((${CONFIG_EXT} MATCHES ".*qt4.*") OR (${CONFIG_EXT} MATCHES ".*osmesa.*"))
 ENDIF()
 
 # Set max/min GCC version
-IF(${IN_BRANCH} MATCHES "4.*")
+IF(${IN_BRANCH} MATCHES "v4.*")
   SET(GCC_MAX "7")
 ENDIF()
 

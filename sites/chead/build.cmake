@@ -34,10 +34,10 @@ ELSE()
 ENDIF()
 
 # Allow parallel builds
-ENV_ADD(MAKEFLAGS "-j 60")
+ENV_ADD(MAKEFLAGS "-j 8")
 
 # Add cache entries
-CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i -j 32")
+CACHE_ADD("MAKECOMMAND:STRING=/usr/bin/make -i -j 8")
 CACHE_ADD("CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Release" CONFIG ".*rel")
 CACHE_ADD("CMAKE_BUILD_TYPE:STRING=Debug" CONFIG ".*dbg")
@@ -91,7 +91,7 @@ CACHE_ADD("TETGEN_LIBRARY:FILEPATH=/mnt/build/pauly/tetgen/tetgen1.5.1/libtet.a"
 
 # Add product-specific cache entries
 IF(NEED_QT6)
-  SETCOND(QT6DIR "/data/hippogang/build/Qt/6.2.2/gcc_64")
+  SETCOND(QT6DIR "/data/hippogang/build/Qt/6.2.4/gcc_64")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT6DIR}/lib/cmake")
 
   # Miniconda clashes with CMAKE_PREFIX_PATH unfortunately

@@ -53,16 +53,14 @@ CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.5.2/${CONFIG_BASE}" BRANCH "rel_3
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.8.2/${CONFIG_BASE}" BRANCH "rel_3.6")
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v4.13.2/${CONFIG_BASE}" BRANCH "rel_3.8")
 CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.2.1/${CONFIG_BASE}" BRANCH "rel_4.0")
-CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.2.1/${CONFIG_BASE}" BRANCH "master")
-CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.2.1/${CONFIG_BASE}" BRANCH "vtk9qt6")
+CACHE_ADD("ITK_DIR:PATH=${ROOT}/Nightly/itk/v5.4.0/${CONFIG_BASE}" BRANCH "master")
 
+# VTK config matches ITKSNAP config
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v5.8.0/${CONFIG_BASE}" BRANCH "rel_2.4")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${CONFIG_BASE}" BRANCH "rel_3.2")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.1.0/${CONFIG_BASE}" BRANCH "rel_3.4")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "rel_3.6")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v6.3.0/${CONFIG_BASE}" BRANCH "rel_3.8")
-
-# VTK config matches ITKSNAP config
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v9.1.0/${IN_CONFIG}" BRANCH "master")
 CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v9.1.0/${IN_CONFIG}" BRANCH "rel_4.0")
-CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v9.1.0/${IN_CONFIG}" BRANCH "vtk9qt6")
+CACHE_ADD("VTK_DIR:PATH=${ROOT}/Nightly/vtk/v9.3.1/${IN_CONFIG}" BRANCH "master")
+
