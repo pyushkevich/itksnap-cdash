@@ -34,7 +34,7 @@ SET(VCVER "vce22")
 
 # These cache entries are configuration specific. I ran cmake gui from the VC prompt with Nmake as the 
 # build system to generate these
-SET(VCBINDIR64 "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64")
+SET(VCBINDIR64 "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64")
 CACHE_ADD("CMAKE_C_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
 CACHE_ADD("CMAKE_CXX_COMPILER:FILEPATH=${VCBINDIR64}/cl.exe")
 
