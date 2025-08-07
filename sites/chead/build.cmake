@@ -91,7 +91,7 @@ CACHE_ADD("TETGEN_LIBRARY:FILEPATH=/mnt/build/pauly/tetgen/tetgen1.5.1/libtet.a"
 
 # Add product-specific cache entries
 IF(NEED_QT6)
-  SETCOND(QT6DIR "/data/hippogang/build/Qt/6.2.4/gcc_64")
+  SETCOND(QT6DIR "/data/hippogang/build/Qt/6.8.3/gcc_64")
   CACHE_ADD("CMAKE_PREFIX_PATH:FILEPATH=${QT6DIR}/lib/cmake")
 
   # Miniconda clashes with CMAKE_PREFIX_PATH unfortunately
