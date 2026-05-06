@@ -32,7 +32,7 @@ INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
 # ---------------------------------------
 SET(EXTERNAL_PRODUCTS
   "itk v5.4.0"
-  "vtk v9.3.1"
+  "vtk v9.6.1"
   )
 
 SET(INTERNAL_PRODUCTS
