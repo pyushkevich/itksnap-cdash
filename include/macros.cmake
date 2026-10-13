@@ -115,7 +115,7 @@ ENDMACRO(SETCOND)
 # The syntax is command is 
 #   ENV_ADD(Variable [PRODUCT regex] [CONFIG regex] [BRANCH regex])
 #
-MACRO(ENV_ADD Variable Value)
+FUNCTION(ENV_ADD Variable Value)
 
   # Parse out the arguments
   PARSE_ARGUMENTS(ARG "PRODUCT;CONFIG;BRANCH" "" ${ARGN})
@@ -145,7 +145,7 @@ MACRO(ENV_ADD Variable Value)
     SET(ENV{${Variable}} "${Value}")
   ENDIF(ENV_ADD_FLAG)
 
-ENDMACRO(ENV_ADD)
+ENDFUNCTION(ENV_ADD)
 
 
 
