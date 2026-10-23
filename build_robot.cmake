@@ -31,7 +31,7 @@ INCLUDE(${CTEST_SCRIPT_DIRECTORY}/include/macros.cmake)
 # All products / branches included here
 # ---------------------------------------
 SET(EXTERNAL_PRODUCTS
-  "itk v5.4.0"
+  "itk v5.4.7"
   "vtk v9.6.1"
   )
 
