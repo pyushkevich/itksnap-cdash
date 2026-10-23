@@ -193,6 +193,8 @@ FUNCTION(BUILD_PRODUCT IN_PRODUCT IN_BRANCH IN_MODEL)
       set(CTEST_UPDATE_TYPE "git")
       set(CTEST_UPDATE_COMMAND ${GIT_BINARY})
 
+      # Only check out on the first config; later configs share the source directory
+      unset(CTEST_CHECKOUT_COMMAND)
       if(NOT EXISTS ${CTEST_SOURCE_DIRECTORY})
         file(MAKE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
         set(CTEST_CHECKOUT_COMMAND ${PRODUCT_CHECKOUT_COMMAND})
